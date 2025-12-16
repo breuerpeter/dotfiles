@@ -8,16 +8,17 @@ wezterm.on("gui-startup", function(cmd)
 	end
 end)
 
-config = wezterm.config_builder()
-config = {
-	font_size = 11,
-	color_scheme = "Night Owl (Gogh)",
-	window_background_opacity = 0.8,
-	--window_decorations = "NONE",
-	default_cursor_style = "SteadyBar",
-	enable_wayland = true,
-	tab_bar_at_bottom = true,
-}
+local config = wezterm.config_builder()
+
+config.font_size = 11
+config.color_scheme = "Night Owl (Gogh)"
+config.window_background_opacity = 0.8
+--config.window_decorations = "NONE"
+config.default_cursor_style = "SteadyBar"
+config.enable_wayland = true
+config.tab_bar_at_bottom = true
+
+local act = wezterm.action
 
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
@@ -51,10 +52,22 @@ config.keys = {
 			mode = "SwapWithActive",
 		}),
 	},
+	{
+		key = "E",
+		mods = "CTRL|SHIFT",
+		action = act.PromptInputLine({
+			description = "Enter new name for tab",
+			initial_value = "",
+			action = wezterm.action_callback(function(window, pane, line)
+				-- line will be `nil` if they hit escape without entering anything
+				-- An empty string if they just hit enter
+				-- Or the actual line of text they wrote
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
 }
-
--- Create tab: CTRL+SHIFT+T
--- Go to next tab: CTRL+TAB
--- Go to previous tab: CTRL+SHIFT+TAB
 
 return config
