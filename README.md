@@ -1,5 +1,5 @@
 # dotfiles
 
 ```
-ln -sf ~/code/dotfiles/wezterm ~/.config/wezterm
+./setup.sh
 ```
