@@ -31,12 +31,15 @@ mpxs() {
 	done
 	docker_exec_cmd+=(px4-sitl-newton "${exec_cmd[@]}")
 
+	local cp_cmd="cp $HOME/code/px4/build/px4_sitl_default/compile_commands.json $HOME/code/px4/"
+
 	if $remote; then
 		printf -v exec_str '%q ' "${docker_exec_cmd[@]}"
 		exec_str=${exec_str% }
-		local cmd="cd ~/code/px4-docker/docker && docker compose up px4-sitl-newton -d && $exec_str"
+		local cmd="cd ~/code/px4-docker/docker && docker compose up px4-sitl-newton -d && $exec_str; $cp_cmd"
 		ssh -t black "mavp2p udps:0.0.0.0:14550 tcps:0.0.0.0:5760 > /dev/null 2>&1 & $cmd"
 	else
 		cd ~/code/px4-docker/docker && docker compose up px4-sitl-newton -d && "${docker_exec_cmd[@]}"
+		$cp_cmd
 	fi
 }
