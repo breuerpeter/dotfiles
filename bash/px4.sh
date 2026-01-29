@@ -10,19 +10,33 @@ mpx() {(
 
 mpxs() {
 	local remote=false stay=false
+	local -a env_pairs=()
 	for arg in "$@"; do
-		[[ "$arg" == *r* ]] && remote=true
-		[[ "$arg" == *s* ]] && stay=true
+		if [[ "$arg" == *=* ]]; then
+			env_pairs+=("$arg")
+		else
+			[[ "$arg" == *r* ]] && remote=true
+			[[ "$arg" == *s* ]] && stay=true
+		fi
 	done
 
-	local exec_cmd="make px4_sitl newton_astro"
-	$stay && exec_cmd='bash -c "trap : INT; make px4_sitl newton_astro; exec bash"'
+	local -a exec_cmd=(make px4_sitl newton_astro)
+	if $stay; then
+		exec_cmd=(bash -lc 'trap : INT; make px4_sitl newton_astro; exec bash')
+	fi
 
-	local cmd="cd ~/code/px4-docker/docker && docker compose up px4-sitl-newton -d && docker exec -it px4-sitl-newton $exec_cmd"
+	local -a docker_exec_cmd=(docker exec -it)
+	for pair in "${env_pairs[@]}"; do
+		docker_exec_cmd+=(-e "$pair")
+	done
+	docker_exec_cmd+=(px4-sitl-newton "${exec_cmd[@]}")
 
 	if $remote; then
+		printf -v exec_str '%q ' "${docker_exec_cmd[@]}"
+		exec_str=${exec_str% }
+		local cmd="cd ~/code/px4-docker/docker && docker compose up px4-sitl-newton -d && $exec_str"
 		ssh -t black "mavp2p udps:0.0.0.0:14550 tcps:0.0.0.0:5760 > /dev/null 2>&1 & $cmd"
 	else
-		eval "$cmd"
+		cd ~/code/px4-docker/docker && docker compose up px4-sitl-newton -d && "${docker_exec_cmd[@]}"
 	fi
 }
