@@ -42,3 +42,73 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KE
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEYBINDING_PATH command "/bin/bash $DOTFILES_DIR/minimize-others.sh"
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEYBINDING_PATH binding "<Super><Shift>m"
 echo "Set up minimize-others keybinding (Super+Shift+M)"
+
+# Claude Code - personal config
+# Remove all symlinks in ~/.claude that point into our personal dir, then re-create
+CLAUDE_PERSONAL_SRC="$DOTFILES_DIR/claude-code/personal"
+CLAUDE_HOME="$HOME/.claude"
+mkdir -p "$CLAUDE_HOME"
+
+for link in "$CLAUDE_HOME"/*; do
+    [ -L "$link" ] && [[ "$(readlink "$link")" == "$CLAUDE_PERSONAL_SRC/"* ]] && rm "$link"
+done
+
+for file in "$CLAUDE_PERSONAL_SRC"/*; do
+    [ -e "$file" ] || continue
+    target="$CLAUDE_HOME/$(basename "$file")"
+    ln -sf "$file" "$target"
+    echo "Linked Claude Code personal config: $(basename "$file") -> $target"
+done
+
+# Claude Code - status line config in settings.json
+CLAUDE_SETTINGS="$CLAUDE_HOME/settings.json"
+[ -f "$CLAUDE_SETTINGS" ] || echo '{}' > "$CLAUDE_SETTINGS"
+if ! jq -e '.statusLine' "$CLAUDE_SETTINGS" > /dev/null 2>&1; then
+    jq '.statusLine = {"type": "command", "command": "~/.claude/statusline.py"}' "$CLAUDE_SETTINGS" > "$CLAUDE_SETTINGS.tmp" \
+        && mv "$CLAUDE_SETTINGS.tmp" "$CLAUDE_SETTINGS"
+    chmod +x "$CLAUDE_HOME/statusline.py"
+    echo "Configured Claude Code status line"
+else
+    echo "Claude Code status line already configured"
+fi
+
+# Claude Code - project configs
+# For each dir in claude-code/project/, find the matching git repo under ~/code and symlink
+CLAUDE_PROJECT_SRC="$DOTFILES_DIR/claude-code/project"
+CODE_DIR="$HOME/code"
+
+for project_dir in "$CLAUDE_PROJECT_SRC"/*/; do
+    [ -d "$project_dir" ] || continue
+    project_name="$(basename "$project_dir")"
+
+    # Find the repo dir (could be nested as a submodule)
+    repo_path="$(find "$CODE_DIR" -maxdepth 6 -type d -name "$project_name" -exec sh -c 'test -d "$1/.git" -o -f "$1/.git"' _ {} \; -print -quit)"
+
+    if [ -z "$repo_path" ]; then
+        echo "Warning: no git repo found for '$project_name' under $CODE_DIR, skipping"
+        continue
+    fi
+
+    target="$repo_path/.claude"
+    if [ -L "$target" ]; then
+        rm "$target"
+    elif [ -d "$target" ]; then
+        mv "$target" "$target.backup"
+        echo "Backed up existing $target to $target.backup"
+    fi
+
+    ln -sf "$project_dir" "$target"
+    echo "Linked Claude Code project config: $project_name -> $target"
+done
+
+# Git hooks - rerun setup after commits, checkouts, and merges
+HOOKS_DIR="$DOTFILES_DIR/.git/hooks"
+for hook in post-commit post-checkout post-merge; do
+    hook_file="$HOOKS_DIR/$hook"
+    hook_cmd="$DOTFILES_DIR/setup.sh"
+    if [ ! -f "$hook_file" ] || ! grep -qF "$hook_cmd" "$hook_file"; then
+        echo -e "#!/bin/bash\n$hook_cmd" > "$hook_file"
+        chmod +x "$hook_file"
+        echo "Installed git $hook hook"
+    fi
+done
