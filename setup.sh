@@ -73,19 +73,24 @@ else
 fi
 
 # Claude Code - project configs
-# For each dir in claude-code/project/, find the matching git repo under ~/code and symlink
+# For each dir in claude-code/project/, find the matching project dir and symlink
 CLAUDE_PROJECT_SRC="$DOTFILES_DIR/claude-code/project"
-CODE_DIR="$HOME/code"
+SEARCH_DIRS=("$HOME/code" "$HOME/documents")
 
 for project_dir in "$CLAUDE_PROJECT_SRC"/*/; do
     [ -d "$project_dir" ] || continue
     project_name="$(basename "$project_dir")"
 
-    # Find the repo dir (could be nested as a submodule)
-    repo_path="$(find "$CODE_DIR" -maxdepth 6 -type d -name "$project_name" -exec sh -c 'test -d "$1/.git" -o -f "$1/.git"' _ {} \; -print -quit)"
+    # Find the project dir (could be a git repo, submodule, or plain directory)
+    repo_path=""
+    for search_dir in "${SEARCH_DIRS[@]}"; do
+        [ -d "$search_dir" ] || continue
+        repo_path="$(find "$search_dir" -maxdepth 6 -type d -name "$project_name" -not -path "$CLAUDE_PROJECT_SRC/*" -print -quit)"
+        [ -n "$repo_path" ] && break
+    done
 
     if [ -z "$repo_path" ]; then
-        echo "Warning: no git repo found for '$project_name' under $CODE_DIR, skipping"
+        echo "Warning: no directory found for '$project_name' under ${SEARCH_DIRS[*]}, skipping"
         continue
     fi
 
