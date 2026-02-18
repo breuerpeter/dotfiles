@@ -43,34 +43,22 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KE
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEYBINDING_PATH binding "<Super><Shift>m"
 echo "Set up minimize-others keybinding (Super+Shift+M)"
 
-# Claude Code - personal config
+# Claude Code - user config
 # Remove all symlinks in ~/.claude that point into our personal dir, then re-create
-CLAUDE_PERSONAL_SRC="$DOTFILES_DIR/claude-code/personal"
+CLAUDE_USER_SRC="$DOTFILES_DIR/claude-code/user"
 CLAUDE_HOME="$HOME/.claude"
 mkdir -p "$CLAUDE_HOME"
 
 for link in "$CLAUDE_HOME"/*; do
-    [ -L "$link" ] && [[ "$(readlink "$link")" == "$CLAUDE_PERSONAL_SRC/"* ]] && rm "$link"
+    [ -L "$link" ] && [[ "$(readlink "$link")" == "$CLAUDE_USER_SRC/"* ]] && rm "$link"
 done
 
-for file in "$CLAUDE_PERSONAL_SRC"/*; do
+for file in "$CLAUDE_USER_SRC"/*; do
     [ -e "$file" ] || continue
     target="$CLAUDE_HOME/$(basename "$file")"
     ln -sf "$file" "$target"
-    echo "Linked Claude Code personal config: $(basename "$file") -> $target"
+    echo "Linked Claude Code user config: $(basename "$file") -> $target"
 done
-
-# Claude Code - status line config in settings.json
-CLAUDE_SETTINGS="$CLAUDE_HOME/settings.json"
-[ -f "$CLAUDE_SETTINGS" ] || echo '{}' > "$CLAUDE_SETTINGS"
-if ! jq -e '.statusLine' "$CLAUDE_SETTINGS" > /dev/null 2>&1; then
-    jq '.statusLine = {"type": "command", "command": "~/.claude/statusline.py"}' "$CLAUDE_SETTINGS" > "$CLAUDE_SETTINGS.tmp" \
-        && mv "$CLAUDE_SETTINGS.tmp" "$CLAUDE_SETTINGS"
-    chmod +x "$CLAUDE_HOME/statusline.py"
-    echo "Configured Claude Code status line"
-else
-    echo "Claude Code status line already configured"
-fi
 
 # Claude Code - project configs
 # For each dir in claude-code/project/, find the matching project dir and symlink
