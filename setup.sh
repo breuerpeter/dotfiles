@@ -4,7 +4,7 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Wezterm
-ln -sf "$DOTFILES_DIR/wezterm" ~/.config/wezterm
+ln -sfn "$DOTFILES_DIR/wezterm" ~/.config/wezterm
 
 # Window Calls GNOME extension (for window manipulation on Wayland)
 EXTENSION_UUID="window-calls@domandoman.xyz"
