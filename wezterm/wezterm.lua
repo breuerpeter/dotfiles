@@ -129,7 +129,7 @@ config.tab_bar_at_bottom = true
 
 local act = wezterm.action
 wezterm.on("update-right-status", function(window, pane)
-	window:set_right_status(window:active_workspace())
+	window:set_right_status(window:active_workspace() .. "  ")
 end)
 
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
