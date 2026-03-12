@@ -1,8 +1,7 @@
 {
   "permissions": {
-    "allow": [
-      "Read(~/code/px4)",
-      "Read(~/code/px4/**)"
+    "additionalDirectories": [
+      "/home/peter/code/px4"
     ]
   }
 }
