@@ -2,6 +2,11 @@
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
+  "permissions": {
+    "allow": [
+      "WebFetch"
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.py"
@@ -24,8 +29,19 @@
     "enabled": true,
     "autoAllowBashIfSandboxed": true
   },
-  "permissions": {
-    "allow": ["WebFetch"]
-  },
-  "allowedBashCommands": ["grep", "rg", "find", "ls", "cat", "head", "tail", "wc", "file", "which", "stat", "echo", "pwd"]
+  "allowedBashCommands": [
+    "grep",
+    "rg",
+    "find",
+    "ls",
+    "cat",
+    "head",
+    "tail",
+    "wc",
+    "file",
+    "which",
+    "stat",
+    "echo",
+    "pwd"
+  ]
 }
