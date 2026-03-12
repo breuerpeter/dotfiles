@@ -6,6 +6,9 @@
     "allow": [
       "WebFetch"
     ]
+    "deny": [
+      "Read(**/.secrets)"
+      ]
   },
   "statusLine": {
     "type": "command",
