@@ -61,7 +61,7 @@ for file in "$CLAUDE_USER_SRC"/*; do
 done
 
 # Claude Code - project configs
-# For each dir in claude-code/project/, find the matching project dir and symlink
+# For each dir in claude-code/project/, find the matching project dir and symlink individual files
 CLAUDE_PROJECT_SRC="$DOTFILES_DIR/claude-code/project"
 SEARCH_DIRS=("$HOME/code" "$HOME/documents")
 
@@ -83,15 +83,20 @@ for project_dir in "$CLAUDE_PROJECT_SRC"/*/; do
     fi
 
     target="$repo_path/.claude"
+
+    # If .claude is a symlink (old style), remove it and create a real directory
     if [ -L "$target" ]; then
         rm "$target"
-    elif [ -d "$target" ]; then
-        mv "$target" "$target.backup"
-        echo "Backed up existing $target to $target.backup"
     fi
+    mkdir -p "$target"
 
-    ln -sf "$project_dir" "$target"
-    echo "Linked Claude Code project config: $project_name -> $target"
+    # Symlink individual files into .claude/
+    for file in "$project_dir"*; do
+        [ -e "$file" ] || continue
+        fname="$(basename "$file")"
+        ln -sf "$file" "$target/$fname"
+        echo "Linked Claude Code project config: $project_name/$fname -> $target/$fname"
+    done
 done
 
 # Git hooks - rerun setup after commits, checkouts, and merges
