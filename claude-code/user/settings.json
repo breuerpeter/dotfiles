@@ -8,7 +8,10 @@
     ],
     "deny": [
       "Read(**/.secrets)"
-      ]
+      ],
+    "additionalDirectories": [
+      "/home/peter/code/dotfiles"
+    ]
   },
   "statusLine": {
     "type": "command",
