@@ -50,6 +50,7 @@ link_files() {
         [ -e "$entry" ] || continue
         local name="$(basename "$entry")"
         if [ -f "$entry" ]; then
+            [ "$name" = "project.path" ] && continue
             ln -sf "$entry" "$dst/$name"
             echo "Linked $label: ${dst##*/}/$name"
         elif [ -d "$entry" ]; then
@@ -60,37 +61,21 @@ link_files() {
     done
 }
 
-# Claude Code - user config
-# Remove all symlinks in ~/.claude that point into our personal dir, then re-create
-CLAUDE_USER_SRC="$DOTFILES_DIR/claude-code/user"
-CLAUDE_HOME="$HOME/.claude"
-mkdir -p "$CLAUDE_HOME"
-
-for link in "$CLAUDE_HOME"/*; do
-    [ -L "$link" ] && [[ "$(readlink "$link")" == "$CLAUDE_USER_SRC/"* ]] && rm "$link"
-done
-
-link_files "$CLAUDE_USER_SRC" "$CLAUDE_HOME" "Claude Code user config"
-
-# Claude Code - project configs
-# For each dir in claude-code/project/, find the matching project dir and symlink individual files
-CLAUDE_PROJECT_SRC="$DOTFILES_DIR/claude-code/project"
-SEARCH_DIRS=("$HOME/code" "$HOME/documents")
+# Claude Code - symlink config files into each project's .claude/ dir
+CLAUDE_PROJECT_SRC="$DOTFILES_DIR/claude-code"
 
 for project_dir in "$CLAUDE_PROJECT_SRC"/*/; do
     [ -d "$project_dir" ] || continue
     project_name="$(basename "$project_dir")"
 
-    # Find the project dir (could be a git repo, submodule, or plain directory)
-    repo_path=""
-    for search_dir in "${SEARCH_DIRS[@]}"; do
-        [ -d "$search_dir" ] || continue
-        repo_path="$(find "$search_dir" -maxdepth 6 -type d -name "$project_name" -not -path "$CLAUDE_PROJECT_SRC/*" -print -quit)"
-        [ -n "$repo_path" ] && break
-    done
-
-    if [ -z "$repo_path" ]; then
-        echo "Warning: no directory found for '$project_name' under ${SEARCH_DIRS[*]}, skipping"
+    # Read project path from project.path file
+    if [ ! -f "$project_dir/project.path" ]; then
+        echo "Warning: no project.path for '$project_name', skipping"
+        continue
+    fi
+    repo_path="$(eval echo "$(cat "$project_dir/project.path")")"
+    if [ ! -d "$repo_path" ]; then
+        echo "Warning: '$repo_path' does not exist for '$project_name', skipping"
         continue
     fi
 
@@ -102,7 +87,7 @@ for project_dir in "$CLAUDE_PROJECT_SRC"/*/; do
     fi
     mkdir -p "$target"
 
-    link_files "$project_dir" "$target" "Claude Code project config ($project_name)"
+    link_files "$project_dir" "$target" "Claude Code config ($project_name)"
 done
 
 # Git hooks - rerun setup after commits, checkouts, and merges
