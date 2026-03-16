@@ -43,6 +43,23 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KE
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEYBINDING_PATH binding "<Super><Shift>m"
 echo "Set up minimize-others keybinding (Super+Shift+M)"
 
+# Symlink files recursively, creating subdirs as real directories
+link_files() {
+    local src="$1" dst="$2" label="$3"
+    for entry in "$src"/*; do
+        [ -e "$entry" ] || continue
+        local name="$(basename "$entry")"
+        if [ -f "$entry" ]; then
+            ln -sf "$entry" "$dst/$name"
+            echo "Linked $label: ${dst##*/}/$name"
+        elif [ -d "$entry" ]; then
+            [ -L "$dst/$name" ] && rm "$dst/$name"
+            mkdir -p "$dst/$name"
+            link_files "$entry" "$dst/$name" "$label"
+        fi
+    done
+}
+
 # Claude Code - user config
 # Remove all symlinks in ~/.claude that point into our personal dir, then re-create
 CLAUDE_USER_SRC="$DOTFILES_DIR/claude-code/user"
@@ -53,12 +70,7 @@ for link in "$CLAUDE_HOME"/*; do
     [ -L "$link" ] && [[ "$(readlink "$link")" == "$CLAUDE_USER_SRC/"* ]] && rm "$link"
 done
 
-for file in "$CLAUDE_USER_SRC"/*; do
-    [ -e "$file" ] || continue
-    target="$CLAUDE_HOME/$(basename "$file")"
-    ln -sf "$file" "$target"
-    echo "Linked Claude Code user config: $(basename "$file") -> $target"
-done
+link_files "$CLAUDE_USER_SRC" "$CLAUDE_HOME" "Claude Code user config"
 
 # Claude Code - project configs
 # For each dir in claude-code/project/, find the matching project dir and symlink individual files
@@ -90,13 +102,7 @@ for project_dir in "$CLAUDE_PROJECT_SRC"/*/; do
     fi
     mkdir -p "$target"
 
-    # Symlink individual files into .claude/
-    for file in "$project_dir"*; do
-        [ -e "$file" ] || continue
-        fname="$(basename "$file")"
-        ln -sf "$file" "$target/$fname"
-        echo "Linked Claude Code project config: $project_name/$fname -> $target/$fname"
-    done
+    link_files "$project_dir" "$target" "Claude Code project config ($project_name)"
 done
 
 # Git hooks - rerun setup after commits, checkouts, and merges
