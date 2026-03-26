@@ -90,6 +90,16 @@ for project_dir in "$CLAUDE_PROJECT_SRC"/*/; do
     link_files "$project_dir" "$target" "Claude Code config ($project_name)"
 done
 
+# PX4 helpers - source from ~/.bashrc
+SOURCE_LINE="source $DOTFILES_DIR/px4_helpers.sh"
+if grep -qF "$SOURCE_LINE" ~/.bashrc 2>/dev/null; then
+    echo "PX4 helpers already in ~/.bashrc"
+else
+    echo "" >> ~/.bashrc
+    echo "$SOURCE_LINE" >> ~/.bashrc
+    echo "Added PX4 helpers to ~/.bashrc"
+fi
+
 # Git hooks - rerun setup after commits, checkouts, and merges
 HOOKS_DIR="$DOTFILES_DIR/.git/hooks"
 for hook in post-commit post-checkout post-merge; do
