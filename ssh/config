@@ -1,0 +1,25 @@
+Host *
+  AddKeysToAgent yes
+  ForwardAgent yes
+Host github.com
+  HostName github.com
+  IdentityFile ~/.ssh/YOGA-github
+Host github-ff
+  HostName github.com
+  IdentityFile ~/.ssh/YOGA-github-ff
+Host bitbucket-ff
+  HostName bitbucket.org
+  IdentityFile ~/.ssh/YOGA-bitbucket-ff
+Host astro
+  HostName 10.41.1.1
+  User root
+  IdentityFile ~/.ssh/astro
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+Host black
+  HostName 192.168.101.223
+  User peter
+  IdentityFile ~/.ssh/black
+  LocalForward 9090 localhost:9090 # Rerun webviewer UI
+  LocalForward 9876 localhost:9876 # Rerun data stream (gRPC)
+  LocalForward 5760 localhost:5760 # GCS

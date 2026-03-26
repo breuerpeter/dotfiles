@@ -3,6 +3,10 @@ set -e
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+# SSH
+ln -sf "$DOTFILES_DIR/ssh/config" ~/.ssh/config
+echo "Linked SSH config"
+
 # Wezterm
 ln -sfn "$DOTFILES_DIR/wezterm" ~/.config/wezterm
 
