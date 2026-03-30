@@ -29,20 +29,12 @@ config.colors = {
 	},
 }
 
-config.background = {
-	{
-		source = {
-			File = wezterm.home_dir .. "/pictures/synology/rainier.jpg",
-		},
-	},
-	{
-		source = {
-			Color = "rgba(0, 15, 30, 0.9)",
-		},
-		height = "100%",
-		width = "100%",
-	},
+config.window_background_gradient = {
+	colors = { "#212E45", "#040414" },
+	-- Specifies a Linear gradient starting in the top left corner.
+	orientation = { Linear = { angle = -45.0 } },
 }
+
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = {
