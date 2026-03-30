@@ -1,6 +1,7 @@
 local wezterm = require("wezterm")
 local mux = wezterm.mux
 
+-- Maximize window on startup
 wezterm.on("gui-startup", function(cmd)
 	if mux then
 		local tab, pane, window = mux.spawn_window(cmd or {})
@@ -8,20 +9,42 @@ wezterm.on("gui-startup", function(cmd)
 	end
 end)
 
+-- Custom config
 local config = wezterm.config_builder()
+local act = wezterm.action
 
-config.font_size = 11
+config.font_size = 12
 config.color_scheme = "Night Owl (Gogh)"
 config.default_cursor_style = "SteadyBar"
+config.window_decorations = "NONE"
 config.enable_wayland = true
+config.hide_tab_bar_if_only_one_tab = true
 config.tab_bar_at_bottom = true
+config.show_new_tab_button_in_tab_bar = false
+config.show_close_tab_button_in_tabs = false
+config.use_fancy_tab_bar = false
+config.colors = {
+	tab_bar = {
+		background = "rgba(0,0,0,0)",
+	},
+}
 
-local act = wezterm.action
-wezterm.on("update-right-status", function(window, pane)
-	window:set_right_status(window:active_workspace() .. "  ")
-end)
-
+config.background = {
+	{
+		source = {
+			File = wezterm.home_dir .. "/pictures/synology/rainier.jpg",
+		},
+	},
+	{
+		source = {
+			Color = "rgba(0, 15, 30, 0.9)",
+		},
+		height = "100%",
+		width = "100%",
+	},
+}
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
+
 config.keys = {
 	-- splitting
 	{
@@ -39,23 +62,30 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action.TogglePaneZoomState,
 	},
-	-- rotate panes
+	-- pane navigation
 	{
 		mods = "LEADER",
-		key = "Space",
-		action = wezterm.action.RotatePanes("Clockwise"),
+		key = "UpArrow",
+		action = wezterm.action.ActivatePaneDirection("Up"),
 	},
-	-- show the pane selection mode, but have it swap the active and selected panes
 	{
 		mods = "LEADER",
-		key = "0",
-		action = wezterm.action.PaneSelect({
-			mode = "SwapWithActive",
-		}),
+		key = "DownArrow",
+		action = wezterm.action.ActivatePaneDirection("Down"),
 	},
 	{
+		mods = "LEADER",
+		key = "LeftArrow",
+		action = wezterm.action.ActivatePaneDirection("Left"),
+	},
+	{
+		mods = "LEADER",
+		key = "RightArrow",
+		action = wezterm.action.ActivatePaneDirection("Right"),
+	},
+	{
+		mods = "LEADER",
 		key = "E",
-		mods = "CTRL|SHIFT",
 		action = act.PromptInputLine({
 			description = "Enter new name for tab",
 			initial_value = "",
@@ -70,5 +100,26 @@ config.keys = {
 		}),
 	},
 }
+
+-- The filled in variant of the < symbol
+local SOLID_LEFT_ARROW = wezterm.nerdfonts.pl_right_hard_divider
+
+-- The filled in variant of the > symbol
+local SOLID_RIGHT_ARROW = wezterm.nerdfonts.pl_left_hard_divider
+
+-- This function returns the suggested title for a tab.
+-- It prefers the title that was set via `tab:set_title()`
+-- or `wezterm cli set-tab-title`, but falls back to the
+-- title of the active pane in that tab.
+function tab_title(tab_info)
+	local title = tab_info.tab_title
+	-- if the tab title is explicitly set, take that
+	if title and #title > 0 then
+		return title
+	end
+	-- Otherwise, use the title from the active pane
+	-- in that tab
+	return tab_info.active_pane.title
+end
 
 return config
