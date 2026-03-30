@@ -121,8 +121,6 @@ local config = wezterm.config_builder()
 
 config.font_size = 11
 config.color_scheme = "Night Owl (Gogh)"
-config.window_background_opacity = 0.9
---config.window_decorations = "NONE"
 config.default_cursor_style = "SteadyBar"
 config.enable_wayland = true
 config.tab_bar_at_bottom = true
