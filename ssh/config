@@ -23,3 +23,6 @@ Host black
   LocalForward 9090 localhost:9090 # Rerun webviewer UI
   LocalForward 9876 localhost:9876 # Rerun data stream (gRPC)
   LocalForward 5760 localhost:5760 # GCS
+Host gantry
+  HostName 192.168.100.2
+  User freefly
