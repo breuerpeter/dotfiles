@@ -1,0 +1,4 @@
+.claude
+.cache/
+pyproject.toml
+uv.lock

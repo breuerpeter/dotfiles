@@ -1,0 +1,13 @@
+[project]
+name = "px4"
+version = "0.0.0"
+description = "PX4 build dependencies"
+requires-python = ">=3.8"
+dependencies = [
+    "empy>=3.3,<4",
+    "jinja2>=2.8",
+    "jsonschema",
+    "kconfiglib",
+    "pyros-genmsg",
+    "pyyaml",
+]
