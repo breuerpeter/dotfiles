@@ -4,14 +4,14 @@
   },
   "permissions": {
     "allow": [
-      "WebFetch"
+      "WebFetch",
+      "Read(/home/peter/code/dotfiles/**)",
+      "Read(/home/peter/.config/nvim/**)"
     ],
     "deny": [
       "Read(**/.secrets)"
     ],
-    "additionalDirectories": [
-      "/home/peter/code/dotfiles"
-    ]
+    "additionalDirectories": []
   },
   "statusLine": {
     "type": "command",
