@@ -18,16 +18,16 @@
     "command": "~/.claude/statusline.py"
   },
   "enabledPlugins": {
-    "software-dev@freefly-plugins": true,
-    "drone-analytics@freefly-plugins": true,
     "clangd-lsp@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true
+    "software-dev@freefly-plugins": true,
+    "drone-analytics@freefly-plugins": true
   },
   "extraKnownMarketplaces": {
-    "freefly-ai-agent-plugins": {
+    "freefly-plugins": {
       "source": {
-        "source": "directory",
-        "path": "/home/peter/code/freefly-ai-agent-plugins"
+        "source": "github",
+        "repo": "freefly-systems/freefly-ai-agent-plugins"
       }
     }
   },
