@@ -19,7 +19,8 @@
   },
   "enabledPlugins": {
     "clangd-lsp@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true
+    "skill-creator@claude-plugins-official": true,
+    "supabase@claude-plugins-official": true,
     "software-dev@freefly-plugins": true,
     "drone-analytics@freefly-plugins": true
   },
