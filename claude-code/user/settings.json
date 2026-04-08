@@ -9,7 +9,8 @@
       "Read(/home/peter/.config/nvim/**)"
     ],
     "deny": [
-      "Read(**/.secrets)"
+      "Read(**/.secrets)",
+      "Read(**/.env)"
     ],
     "additionalDirectories": []
   },
