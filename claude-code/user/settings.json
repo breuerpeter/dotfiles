@@ -36,14 +36,7 @@
     }
   },
   "sandbox": {
-    "enabled": true,
-    "autoAllowBashIfSandboxed": true,
-    "filesystem": {
-      "allowWrite": [
-        "~/.cache/uv",
-        "~/.cache/pre-commit"
-      ]
-    }
+    "enabled": false
   },
   "allowedBashCommands": [
     "grep",
