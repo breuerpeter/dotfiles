@@ -5,6 +5,7 @@
   "permissions": {
     "allow": [
       "WebFetch",
+      "Bash(gh *)",
       "Read(/home/peter/code/**)",
       "Read(/home/peter/.config/nvim/**)",
       "Read(/home/peter/documents/wiki/**)",
@@ -12,7 +13,18 @@
     ],
     "deny": [
       "Read(**/.secrets)",
-      "Read(**/.env)"
+      "Read(**/.env)",
+      "Bash(gh pr merge*)",
+      "Bash(gh pr close*)",
+      "Bash(gh repo delete*)",
+      "Bash(gh repo archive*)",
+      "Bash(gh repo rename*)",
+      "Bash(gh issue close*)",
+      "Bash(gh issue delete*)",
+      "Bash(gh release delete*)",
+      "Bash(gh auth logout*)",
+      "Bash(gh ssh-key delete*)",
+      "Bash(gh gpg-key delete*)"
     ],
     "additionalDirectories": []
   },
@@ -51,6 +63,7 @@
     "which",
     "stat",
     "echo",
-    "pwd"
+    "pwd",
+    "gh"
   ]
 }
