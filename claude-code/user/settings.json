@@ -50,6 +50,7 @@
   "sandbox": {
     "enabled": false
   },
+  "effortLevel": "high",
   "allowedBashCommands": [
     "grep",
     "rg",
