@@ -43,8 +43,8 @@
   "extraKnownMarketplaces": {
     "freefly-plugins": {
       "source": {
-        "source": "github",
-        "repo": "freefly-systems/freefly-ai-agent-plugins"
+        "source": "file",
+        "path": "/home/peter/code/freefly-ai-agent-plugins"
       }
     }
   },
