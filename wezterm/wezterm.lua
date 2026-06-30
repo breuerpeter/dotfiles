@@ -35,9 +35,32 @@ config.window_background_gradient = {
 	orientation = { Linear = { angle = -45.0 } },
 }
 
+-- Persistent remote sessions: connect to a wezterm-mux-server on `black`.
+-- multiplexing = "WezTerm" runs your shell under a remote daemon, so sessions
+-- survive VPN drops / laptop sleep. Reconnect with LEADER+a or `wezterm connect black`.
+config.ssh_domains = {
+	{
+		name = "black",
+		remote_address = "black", -- resolved via ~/.ssh/config (key auth, VPN host)
+		multiplexing = "WezTerm",
+		remote_wezterm_path = "/usr/bin/wezterm",
+		-- Predictive local echo disabled. On this ~180-280ms VPN link the
+		-- threshold is effectively binary, and prediction flickers inside
+		-- full-screen apps (claude, vim) where it can't model the app's redraw.
+		-- High value => prediction never engages. Drop to ~150 to re-enable.
+		local_echo_threshold_ms = 10000,
+	},
+}
+
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = {
+	-- connect to the persistent remote mux on `black`
+	{
+		mods = "LEADER",
+		key = "a",
+		action = wezterm.action.AttachDomain("black"),
+	},
 	-- splitting
 	{
 		mods = "LEADER",
