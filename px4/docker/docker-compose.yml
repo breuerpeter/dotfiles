@@ -1,0 +1,28 @@
+# PX4 NuttX firmware build/flash toolchain
+services:
+  px4-nuttx:
+    build:
+      context: .
+      dockerfile: fmu.Dockerfile
+    image: px4-nuttx
+    # Flashing (`make <target> upload`) and SD-card access need device privileges.
+    privileged: true
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - seccomp=unconfined
+    tty: true
+    stdin_open: true
+    volumes:
+      # Bind the checkout at its host path so container and host share one build/ tree.
+      - ${PX4_DIR:-${HOME}/code/px4}:${PX4_DIR:-${HOME}/code/px4}:rw
+      # SD cards / mounted devices for upload workflows.
+      - type: bind
+        source: /media/${USER}
+        target: /media
+        bind:
+          propagation: rshared
+    environment:
+      - LOCAL_USER_ID=${UID:-1000}
+    working_dir: ${PX4_DIR:-${HOME}/code/px4}
