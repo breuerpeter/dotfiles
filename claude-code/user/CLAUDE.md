@@ -76,30 +76,23 @@ defer to it where it is more specific.
 
 ### Labels and types
 
-Two fixed labels apply across **all** repos (create them if missing — see the
-`/updateissues` command for the `gh label create` invocations):
+**`claudeseen`** is the one fixed label, applied across all repos (create it if
+missing — see the `/updateissues` command). It means you have triaged the issue,
+so it is the inverse of "needs triage": the `/updateissues` worklist is every
+open issue *lacking* it.
 
-- **`claudeseen`** — you have triaged the issue (clear title, detailed body,
-  labels applied). It is the inverse of "needs triage": the `/updateissues`
-  worklist is every open issue *lacking* `claudeseen`.
-- **`claude`** — you opened the issue (AI-generated). Apply it to **every** issue
-  you create, so AI-filed issues stay distinguishable from the user's.
-
-**Type** uses GitHub's native **Issue Type** field, not a label — one per issue,
-set with `gh issue edit <n> --type <Name>` or `gh issue create --type <Name>`:
+**Type and Priority are the user's, set at creation** — the issue form applies
+the native Issue Type, and the user picks Priority in the browser. Read them,
+never write them. Don't set them during triage, don't "fix" one that looks wrong
+— say so instead. The native types, so you can read them correctly:
 
 - **Bug** — something is broken / behaves wrong vs. expected.
 - **Feature** — a new capability or enhancement.
 - **Task** — chore / refactor / infra / non-feature work.
-- **Experiment** — exploratory ("go figure out what I want"). **Not
-  autonomously completable** — it needs the user's guidance before real work, so
-  never treat it as a normal implement-and-close item.
 
-If a type is not configured in the org (Experiment is *not* a GitHub default and
-often won't exist), fall back to a `type: experiment` label and note it.
-
-**Priority** — always apply exactly one: `priority: high` / `priority: medium` /
-`priority: low`.
+Never use a label to record type or priority: the default `bug` / `enhancement`
+(and any `feature`/`task`/`type:`/`priority:`) labels duplicate the native
+fields — don't apply them.
 
 **Other labels** (area / component / etc.) — create and apply ad hoc where they
 aid filtering; discover existing ones with `gh label list` and reuse rather than
@@ -111,9 +104,9 @@ duplicate.
 open issue lacking `claudeseen`: read it fully (comments included), give it a
 clear, specific title, rewrite the body in detail (problem / observed-vs-expected
 for bugs, the goal for features) grounded in the codebase with `file:line`
-anchors where useful, preserve the original report verbatim at the bottom, set
-the type + a priority + any useful labels, then mark `claudeseen`. The command
-file holds the exact steps.
+anchors where useful, preserve the original report verbatim at the bottom, apply
+any useful labels, then mark `claudeseen`. Type and Priority are not yours to
+set — leave them as the user filed them. The command file holds the exact steps.
 
 ### Working an issue
 
@@ -130,26 +123,46 @@ file holds the exact steps.
    what you changed in response — the issue should carry the actual flow, not a
    sanitized end-state. (E.g. you implement #234, the user says it regresses X →
    comment that, then the follow-up fix.)
-4. **A new bug/feature raised in chat becomes an issue.** When something clearly
-   new surfaces mid-session, open an issue for it, authored to triage standard —
-   clear title, detailed body, type, priority, the `claude` label, and
-   `claudeseen` (you've just written it cleanly, so it shouldn't reappear in the
-   re-triage queue). Auto-file when it's clearly a distinct new bug/feature; if
-   it's ambiguous whether it's new or part of the current issue, ask first. Don't
-   silently fold unrelated discoveries into the issue you're on.
+4. **Never create issues — the user does.** `gh issue create` is denied. Issues
+   are filed in the browser so the repo's issue-form template applies; `gh` has
+   no `--template` flag for forms at any version, so no CLI route preserves them.
+   Don't reach for `gh api -X POST .../issues` either. When something clearly new
+   surfaces mid-session, **draft it in chat, split by the form's fields**, so it
+   can be pasted straight in — and don't silently fold an unrelated discovery
+   into the issue you're on.
+
+### Writing on an issue
+
+Comments and body edits are yours; they prompt for approval before they post.
+
+- **Show the text in chat before posting it.** The approval prompt shows the
+  command, and with `--body-file` that's a path rather than the content — so
+  paste the draft first or the approval is rubber-stamping a filename.
+- **The body is the current truth; comments are history.** When a design
+  changes, rewrite the body and comment what changed. Never leave the live
+  answer buried in a comment thread under a superseded body — a reader should
+  never have to reconstruct the current answer from a thread.
+- **One section earns length**; the rest is a paragraph or a checklist. Evidence
+  on a bug, Design on a feature. If everything is running long, the problem
+  usually isn't pinned down yet.
+- Draft against the repo's own form fields (`.github/ISSUE_TEMPLATE/`) so an
+  edit matches the shape the issue was filed in.
 
 ### Closing
 
-- **Close only when actually complete and verified.** Before closing, re-read
-  **all** comments and confirm every point raised is resolved or unrelated — new
-  comments may have arrived while you worked. Capture any outstanding actions
-  from the comments in your resolution before you close.
-- **Don't close if it needs the user.** If resolving requires their input, a
-  decision, or testing/hardware only they can do — or it's an **Experiment** —
-  leave it open with a comment on the current state and what's blocked. Closing
-  is for done-and-verified only.
-- Close via a merged `Closes #<n>` PR or a summary comment that makes the
-  how / why / testing clear; set labels to match reality.
+You don't close issues — `gh issue close` is denied. A `Closes #<n>` in a merged
+PR still closes one; that is the normal path and needs nothing from you.
+
+Otherwise: **post the closing summary as a comment, then say it's ready to
+close.** The comment carries the how / why / testing so the record stands on its
+own. Only do that once it is genuinely complete and verified — re-read **all**
+comments first and confirm every point raised is resolved or unrelated, since
+new ones may have arrived while you worked.
+
+**If it needs the user, don't propose closing at all.** Where resolving takes
+their input, a decision, or testing only they can do — including any issue whose
+own body says it is exploratory and not autonomously completable — comment the
+current state and what's blocked, and leave it.
 
 ### Milestones
 
