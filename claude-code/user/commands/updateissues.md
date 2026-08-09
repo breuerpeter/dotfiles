@@ -21,10 +21,8 @@ yourself.
 1. Read this project's `CLAUDE.md` to find where its issues live and how it
    labels them (the issue tracker location, and the label scheme — **type** and
    **priority** are native GitHub fields set by me at creation, not yours to
-   touch; labels are for **area / descriptive** tags plus the provenance
-   convention). If `CLAUDE.md` says
-   nothing about a GitHub issue
-   tracker, STOP and tell me — don't guess a repo.
+   touch; labels are for **area / descriptive** tags). If `CLAUDE.md` says
+   nothing about a GitHub issue tracker, STOP and tell me — don't guess a repo.
 2. Use the `gh` CLI; it resolves the repo from `origin`, so `--repo` is
    optional. Confirm access with `gh issue list`.
 3. Discover the actual available labels with `gh label list` — reuse existing
