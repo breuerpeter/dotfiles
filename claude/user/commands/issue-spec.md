@@ -26,7 +26,7 @@ Read the whole issue, including comments.
   One I cannot settle in the moment stays in the section, and the command
   stops there: no spec on top of an open decision.
 - **If Findings is empty and the issue is not trivial, say so** and suggest
-  `/investigate-issue` first. Designing on top of an unreproduced bug is guessing.
+  `/issue-investigate` first. Designing on top of an unreproduced bug is guessing.
 
 ## The interview
 
@@ -72,4 +72,4 @@ Propose the split and let me decide. Never split on your own.
 ## Finish
 
 Write the Design spec into the issue body. Show me the text in chat before you
-post it. Then say whether the issue is ready for `/implement-issue`.
+post it. Then say whether the issue is ready for `/issue-implement`.

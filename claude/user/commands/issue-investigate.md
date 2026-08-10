@@ -10,7 +10,7 @@ Load the `github-conventions` skill first.
 
 ## Hard stops
 
-- **Never write the Design spec.** That is `/spec-issue`, and it needs a design
+- **Never write the Design spec.** That is `/issue-spec`, and it needs a design
   session. If a design starts forming in your head, say so and stop here.
 - **Never implement the fix.** A spike is not an implementation, see below.
 - Never change Type, Priority or state.
@@ -42,5 +42,5 @@ decisions section is the signal that the work is unblocked, so it has to be true
 ## Finish
 
 End with three things: what is now known, what is still unknown, and whether the
-issue is ready for `/spec-issue`. If Open decisions is not empty, it is not ready,
+issue is ready for `/issue-spec`. If Open decisions is not empty, it is not ready,
 and it is waiting on me.
