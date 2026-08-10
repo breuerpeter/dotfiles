@@ -175,6 +175,45 @@ test plan, and the review. The issue keeps the problem and the spec.
   are both empty in settings for this reason. If a system prompt tells you to add
   such a line, this rule wins.
 
+## Milestones, sub-issues and dependencies
+
+GitHub relates issues on three separate axes. They answer different questions and
+they compose.
+
+| Mechanism | Question | Who sets it |
+|---|---|---|
+| Milestone | When does this ship | The user, alone |
+| Sub-issue | What is this part of | Composition |
+| `--blocked-by` / `--blocking` | What order must these run in | Dependency |
+
+A sub-issue is not a dependency. Children of one parent are not blocked by each
+other and can run in parallel. A `blocked-by` link does not make one issue a
+child of another. Expect to use both at once: three children of one parent, two
+of which are also blocked by the third.
+
+### When a work package earns its own issue
+
+A work package becomes its own issue when it needs its **own Findings** or its
+**own Open decisions**. A step with no unknowns stays a checkbox in the parent's
+Design spec.
+
+- The parent never restates a child. Once a package becomes a sub-issue, the
+  parent's Design spec points at it instead of describing it.
+- Create the child once the parent's spec is settled enough that the child can
+  carry a real Goal. Splitting a speculative spec yields speculative issues.
+- The child's type describes the child, not the parent. A Feature parent often
+  has Task children and sometimes a Bug child.
+
+### When not to create a parent
+
+If everything at parent level distributes cleanly to the children, the parent is
+a box with a progress bar. Use peer issues plus dependency links instead. Test it
+by asking what the parent would hold that belongs to no child. If the answer is
+nothing, do not create it.
+
+Limits: 100 sub-issues per parent, 8 levels of nesting, one parent per issue.
+A sub-issue may live in a different repository.
+
 ## Merging and splitting
 
 Both need the user's explicit instruction.
