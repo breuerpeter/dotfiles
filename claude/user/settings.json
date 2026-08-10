@@ -26,7 +26,7 @@
       "Bash(gh repo archive*)",
       "Bash(gh repo rename*)",
       "Bash(gh issue close*)",
-      "Bash(gh issue create*)",
+      "Bash(gh issue comment*)",
       "Bash(gh issue delete*)",
       "Bash(gh release delete*)",
       "Bash(gh auth logout*)",
@@ -34,7 +34,7 @@
       "Bash(gh gpg-key delete*)"
     ],
     "ask": [
-      "Bash(gh issue comment*)",
+      "Bash(gh issue create*)",
       "Bash(gh issue edit*)",
       "Bash(gh issue reopen*)",
       "Bash(gh issue lock*)",
@@ -58,7 +58,8 @@
     "software-dev@freefly-plugins": true,
     "supabase@claude-plugins-official": true,
     "vercel@claude-plugins-official": true,
-    "i-have-adhd@i-have-adhd": true
+    "i-have-adhd@i-have-adhd": true,
+    "simple-english@simple-english": true
   },
   "extraKnownMarketplaces": {
     "freefly-plugins": {
@@ -71,6 +72,12 @@
       "source": {
         "source": "github",
         "repo": "ayghri/i-have-adhd"
+      }
+    },
+    "simple-english": {
+      "source": {
+        "source": "github",
+        "repo": "AminBlg/SimpleEnglish"
       }
     }
   },
