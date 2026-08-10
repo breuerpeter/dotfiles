@@ -69,6 +69,25 @@ rewrite, label or tag it. Never add or remove assignees yourself.
 Do each issue in one `gh issue edit <n> --title … --body-file … --add-label …`
 where practical.
 
+## Comment inbox
+
+The 👍 reaction marks a comment as absorbed (see the skill). Triage is the only
+pass that sweeps the whole repo, so it also owns the inbox: comments on
+already-triaged issues that nobody absorbed yet.
+
+```
+gh api "repos/{owner}/{repo}/issues/comments" --paginate \
+  --jq '.[] | select(.reactions["+1"] == 0) | {url: .html_url, issue: .issue_url, preview: .body[0:100]}'
+```
+
+- Skip comments on issues that lack `triaged`; the main pass reads those in
+  full.
+- Skip comments that belong to a PR (the issue fetch shows a `pull_request`
+  key); those are `/pr-todos` territory.
+- For each of the rest: absorb anything substantive into the issue body, then
+  react 👍 on the comment. A comment that needs a human reply gets a draft in
+  chat instead, and no reaction until the point is settled.
+
 ## Rules
 
 - **Don't lose information.** The rewrite clarifies; it never drops a fact.

@@ -6,7 +6,7 @@ argument-hint: the PR number, e.g. 42
 Work through the open action items on PR `$ARGUMENTS`, one commit at a time.
 
 Load the `github-conventions` skill first. It holds the two PR comment surfaces
-and how to reply on a review thread.
+and the no-discussion-comments rule this command works under.
 
 ## Gather
 
@@ -32,11 +32,27 @@ Stop there. The user confirms the list or edits it. Do not start until they answ
 2. Say how to verify it: what to run, what to look at. Wait for the user to confirm it is good.
 3. Commit it on its own. One item, one commit.
 4. Ask before pushing.
-5. Close the loop on the source:
+5. Close the loop on the source. Never write a comment; the 👍 reaction is the
+   completion marker.
    - a description checkbox becomes `- [x]` via `gh pr edit`
-   - a review comment gets a reply on its own thread
-   - a conversation item gets a top-level reply
+   - a review comment gets a 👍 reaction, then its thread is resolved:
 
-   Keep the reply short: what changed, which files, and one line of rationale if the approach was not obvious.
+     ```
+     gh api -X POST repos/{owner}/{repo}/pulls/comments/<id>/reactions -f content=+1
+     ```
 
-If an item is ambiguous, ask rather than guess.
+     Find the thread id by matching the comment's `databaseId` in
+     `reviewThreads(first:100){ nodes{ id comments(first:1){ nodes{ databaseId }}}}`
+     on the pull request, then
+     `mutation{ resolveReviewThread(input:{threadId:"..."}){ thread{ isResolved }}}`.
+   - a conversation item gets a 👍 reaction:
+
+     ```
+     gh api -X POST repos/{owner}/{repo}/issues/comments/<id>/reactions -f content=+1
+     ```
+   - if the item changed the approach, fold the rationale into the PR
+     description; the commit carries the what, the description carries the why
+
+An item you will not do gets no reaction: draft the reply in chat for the user
+to post, and leave the thread open. If an item is ambiguous, ask rather than
+guess.

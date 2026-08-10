@@ -17,8 +17,14 @@ Take the time.
 
 Read the whole issue, including comments.
 
-- **If Open decisions is not empty, stop.** Those are mine to settle, and a spec
-  built on an unsettled decision gets rewritten. List them and wait.
+- **If Open decisions is not empty, settle it first.** Those are mine to
+  settle, and a spec built on an unsettled decision gets rewritten — but this
+  command is the one place I am present, so open the interview with them.
+  Present each entry through `AskUserQuestion`, options and trade-offs as
+  written. For each one I settle: record the outcome as one line in the Design
+  spec (or Findings, when it is a fact) and delete the entry, per the skill.
+  One I cannot settle in the moment stays in the section, and the command
+  stops there: no spec on top of an open decision.
 - **If Findings is empty and the issue is not trivial, say so** and suggest
   `/investigate-issue` first. Designing on top of an unreproduced bug is guessing.
 
@@ -52,7 +58,9 @@ The spec is sufficient when it has:
   anything new or changed
 - an explicit list of what the change must not break
 - what is in scope, and what is out of scope
-- acceptance: the commands that must pass, and their expected values
+- acceptance: the commands that must pass, and their expected values, under a
+  `### Acceptance` heading — the one required subheading; commands and
+  reviewers anchor on it
 - the order of the work, where order matters
 
 ## Too big for one issue

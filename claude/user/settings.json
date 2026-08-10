@@ -26,6 +26,7 @@
       "Bash(gh repo delete*)",
       "Bash(gh repo archive*)",
       "Bash(gh repo rename*)",
+      "Bash(gh pr comment*)",
       "Bash(gh issue close*)",
       "Bash(gh issue comment*)",
       "Bash(gh issue delete*)",
@@ -47,7 +48,20 @@
     "defaultMode": "auto",
     "additionalDirectories": []
   },
-  "model": "opus",
+  "model": "fable",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/peter/.claude/hooks/gh-api-guard.py"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.py"
@@ -60,7 +74,8 @@
     "supabase@claude-plugins-official": true,
     "vercel@claude-plugins-official": true,
     "i-have-adhd@i-have-adhd": true,
-    "simple-english@simple-english": true
+    "simple-english@simple-english": true,
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
     "freefly-plugins": {

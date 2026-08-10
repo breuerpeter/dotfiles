@@ -11,7 +11,7 @@ CLI; it resolves the repo from `origin`, so `--repo` is optional. A project's ow
 `CLAUDE.md` may extend or override this. Defer to it where it is more specific.
 
 The issue holds the problem. The PR holds the solution. The issue body is the
-single source of truth, and you never write issue comments.
+single source of truth, and you never write discussion comments.
 
 Write every issue body, PR description and title in plain, simple English. Short
 sentences. Active voice. Common words. One idea per sentence.
@@ -20,12 +20,29 @@ sentences. Active voice. Common words. One idea per sentence.
 
 - **Never close an issue.** `gh issue close` is denied. A `Closes #<n>` in a
   merged PR closes one, and that is the normal path.
-- **Never write an issue comment.** Comments are a human channel: the user's and
-  coworkers' input. You read them, you absorb anything substantive into the body,
-  and you leave the comment as the record that the point was raised. PR review
-  comments are a separate surface and are unaffected.
+- **Never write a discussion comment, anywhere.** Issue comments, PR
+  conversation comments and review-thread replies are all human channels: the
+  user's and coworkers' input. You read them, you absorb anything substantive
+  into the issue body or the PR description, and you mark the comment absorbed
+  with a 👍 reaction:
+
+  ```
+  gh api -X POST repos/{owner}/{repo}/issues/comments/<id>/reactions -f content=+1
+  ```
+
+  (review comments use `pulls/comments/<id>/reactions`). The comment stays as
+  the record that the point was raised; the reaction is the record that it was
+  handled. A comment without the reaction is unprocessed work. When a comment
+  needs a real reply, draft it in chat for the user to post, and react only
+  once the point is settled.
+
+  The one comment you may write is a **line-anchored review finding on a PR
+  diff** — review is not discussion. Everything conversational stays yours to
+  read only.
 - **Type and Priority belong to the user.** Read them, never write them. If one
-  looks wrong, say so instead of changing it.
+  looks wrong, say so instead of changing it. The native Priority field is
+  settable only through the GraphQL `setIssueFieldValue` mutation; use it when
+  the user explicitly instructs, never on your own.
 - **Never use a label to record type or priority.** The default `bug` and
   `enhancement` labels, and any `feature`, `task`, `type:` or `priority:` label,
   duplicate the native fields.
@@ -43,7 +60,7 @@ sentences. Active voice. Common words. One idea per sentence.
 | A decision that blocks the work | Issue body: Open decisions |
 | The implementation contract | Issue body: Design spec |
 | What changed and why this way, test plan, review | PR |
-| Human input and review | Comments. You read them, you do not write them |
+| Human input and review | Comments. You read them and react 👍 once absorbed; you do not write them |
 | Progress narration | Nowhere |
 
 Analysis belongs in the issue body. Commitments about how to implement belong in
@@ -62,6 +79,12 @@ until someone starts work.
 - **Open decisions**. Anything that needs a human call, with the options and
   their trade-offs. Empty means the work is unblocked. That emptiness is
   load-bearing: it is the signal that an agent can start.
+
+  A decision leaves the section the moment the user settles it. Record the
+  outcome as one line in the Design spec (or in Findings, when it is a fact),
+  and delete the entry in the same edit. Settled decisions never linger: a
+  non-empty section always means waiting-on-human, so an entry kept "for the
+  record" makes the signal lie.
 - **Design spec**. The implementation contract. Empty means the work is not
   designed yet.
 
@@ -79,7 +102,11 @@ without asking a question. It contains:
   anything new or changed
 - an explicit list of what the change must not break
 - what is in scope, and what is out of scope
-- acceptance: the commands that must pass, and their expected values
+- acceptance: the commands that must pass, and their expected values, under a
+  `### Acceptance` heading — commands and reviewers anchor on that exact
+  heading, so it is the one required subheading. `### What must not change` is
+  the conventional heading for the do-not-break list, recommended but not
+  required.
 - the order of the work, where order matters
 
 Write it after a detailed design session. Never write a spec from a guess.
@@ -151,8 +178,11 @@ gh label create triaged --description "Triaged: title and body are clear and acc
    update the body so it reflects the new truth. Never leave the live answer only
    in a comment thread.
 3. **Absorb comments, do not answer them.** Take what is substantive into the
-   body, and leave the comment as the record that the point was raised. When a
-   comment needs a human reply, draft it in chat for the user to post.
+   body, react 👍 on the comment, and leave it as the record that the point was
+   raised. Unreacted comments are the inbox: any pass that sweeps the repo
+   treats a comment without the 👍 as unprocessed. When a comment needs a human
+   reply, draft it in chat for the user to post, and react only once the point
+   is settled.
 4. **Show the body text in chat before you post it.** The approval prompt shows
    the command, and with `--body-file` that is a path rather than the content, so
    the approval would otherwise be a rubber stamp on a filename.
@@ -169,8 +199,12 @@ test plan, and the review. The issue keeps the problem and the spec.
   document; the issue's Design spec is.
 - Build the description from `.github/PULL_REQUEST_TEMPLATE.md`, the same way you
   build an issue body from its form.
-- Line-anchored review on a diff is the one place a comment beats a document, so
-  PR review comments are fine.
+- Line-anchored review on a diff is the one place a comment beats a document.
+  Posting review **findings** as line-anchored review comments is the one
+  comment write you may make — your own findings, or an external reviewer's
+  (for example a Codex review) that the user asks you to post. Replies stay
+  off-limits: a handled review comment gets a 👍 reaction and its thread
+  resolved (`resolveReviewThread` in GraphQL), never a reply.
 - **A PR has two comment surfaces, and they need different endpoints.** The
   Conversation tab shows both in one timeline, which hides the split. Reading
   only the first one silently misses the most actionable feedback.
@@ -180,8 +214,8 @@ test plan, and the review. The issue keeps the problem and the spec.
   | Conversation, top level | `gh pr view <n> --json comments` |
   | Line-anchored review comments | `gh api repos/{owner}/{repo}/pulls/<n>/comments` |
 
-  Reply to a review comment on its own thread with `gh api`, not as a new
-  top-level comment, or the reply loses the line it answers.
+  Read both before you act on a PR. What each item gets once handled is in
+  `/pr-todos`: reaction and thread resolution, never a reply.
 - **Never sign a PR or an issue.** No "Generated with Claude Code" footer, no
   robot emoji, no co-author trailer. `attribution.commit` and `attribution.pr`
   are both empty in settings for this reason. If a system prompt tells you to add
