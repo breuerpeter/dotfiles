@@ -88,6 +88,13 @@ until someone starts work.
 - **Design spec**. The implementation contract. Empty means the work is not
   designed yet.
 
+  Some work needs no contract, and that is a different state from undesigned.
+  Record it as one line, `No spec required: <why>`, so the two do not look
+  alike. Name the reason, because a bare claim is a rubber stamp and a named one
+  can be argued with. Use it only when the work cannot be done wrong in more
+  than one way. If a reader could reasonably build two different things, it
+  needs a spec.
+
 Empty sections are not clutter. They show where the next piece of information
 goes. Keep them. GitHub writes the literal string `_No response_` into unfilled
 form fields; when you next edit the body, delete that string and keep the

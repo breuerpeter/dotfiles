@@ -22,7 +22,11 @@ stops the command.
    Any output stops the command: the seam this spec builds on does not exist
    yet.
 2. **Open decisions is not empty.** Those are mine to settle. List them and stop.
-3. **Design spec is empty.** Stop and suggest `/issue-spec`.
+3. **Design spec is empty.** Stop and suggest `/issue-spec`. A spec reading
+   `No spec required: <why>` is not empty. It is a deliberate decision that the
+   work needs no contract, so carry on, but check the reason still holds. If the
+   work turns out to have more than one reasonable shape, that line was wrong:
+   stop and say so.
 4. **Design spec does not meet the bar.** Name the missing part and stop. The bar
    is in `github-conventions`: an agent given only this issue can implement it
    without asking a question. In practice, check for the do-not-break list,
