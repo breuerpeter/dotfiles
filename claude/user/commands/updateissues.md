@@ -62,11 +62,31 @@ where practical.
 
 - **Don't lose information.** The rewrite clarifies; it never drops a fact.
 - **Don't change issue state**, and don't close anything.
-- **Don't merge or split issues.** Both need my explicit instruction. If two
-  issues look like duplicates, say so in your summary and leave them alone.
+- **Don't merge or split issues.** Both need my explicit instruction.
 - **Re-run the query before you finish.** The only issues that should still lack
   `claudeseen` are human-assigned ones I haven't approved. A new unassigned issue
   that arrived mid-run is in scope, so handle it too.
 - End with a short summary: which issues you touched, the labels you set, and any
   human-assigned ones you held back on. Note any Type or Priority that looks
   wrong rather than changing it.
+
+## Structure notes
+
+Close the summary with what you noticed about how the issues relate. Triage is
+the only pass that sees the whole backlog at once. **Report all of it, change
+none of it.**
+
+- **Milestones.** Issues that belong to a milestone that already exists, and any
+  cluster that looks like a milestone nobody has created yet. Milestones are mine
+  alone, so a suggestion is the only way you can act on one.
+- **Sub-issues.** Two issues where one is genuinely part of the other, or one
+  issue that is really several independent pieces of work. Apply the test in
+  `github-conventions`: a piece earns its own issue when it needs its own
+  Findings or its own Open decisions.
+- **Dependencies.** Any issue that cannot start until another one lands.
+- **Duplicates.** Issues covering the same ground.
+
+Suggest all four in chat. Never create the link, the milestone or the split.
+
+Most issues at triage time have no Design spec yet, so the spec-level sub-issue
+question rarely fires here. It belongs to whoever writes the spec.
