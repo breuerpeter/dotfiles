@@ -132,12 +132,13 @@ characters survive in lists, notification emails and search results.
 Area and component labels are yours to create and apply where they aid filtering.
 Run `gh label list` first and reuse what exists rather than duplicate it.
 
-`claudeseen` is the one fixed label, used across every repo. It marks an issue you
-have triaged, so the triage worklist is every open issue that lacks it. Create it
-if it is missing:
+`triaged` is the one fixed label, used across every repo. It records the state,
+not who did the work, so it stays true when the user triages an issue by hand.
+The triage worklist is every open issue that lacks it. Create it if it is
+missing:
 
 ```
-gh label create claudeseen --description "Triaged by Claude" --color 8957e5
+gh label create triaged --description "Triaged: title and body are clear and accurate" --color 8957e5
 ```
 
 ## Working an issue

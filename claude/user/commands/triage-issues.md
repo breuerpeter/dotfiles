@@ -4,8 +4,8 @@ argument-hint: [optional scope, e.g. an issue number or "all" for closed too]
 ---
 
 Triage the GitHub issues in THIS project that I haven't reviewed yet. The
-`claudeseen` label is the "I have triaged this" marker: an issue **without** it is
-new and needs your attention. Clean each one up, then tag it `claudeseen` so it
+`triaged` label is the "I have triaged this" marker: an issue **without** it is
+new and needs your attention. Clean each one up, then tag it `triaged` so it
 drops off the list next time.
 
 **Load the `github-conventions` skill first.** It defines what a good title and a
@@ -21,14 +21,14 @@ Triage means titles, bodies and labels. No implementation, no state changes.
    guess a repo.
 2. Confirm access with `gh issue list`.
 3. Discover the available labels with `gh label list` and reuse existing ones.
-   Create `claudeseen` if it is missing. The whole mechanism depends on it:
-   `gh label create claudeseen --description "Triaged by Claude" --color 8957e5`
+   Create `triaged` if it is missing. The whole mechanism depends on it:
+   `gh label create triaged --description "Triaged: title and body are clear and accurate" --color 8957e5`
 
 ## Find the work
 
 ```
 gh issue list --state open --limit 200 --json number,title,labels,assignees \
-  | jq -r '.[] | select(any(.labels[].name; . == "claudeseen") | not)
+  | jq -r '.[] | select(any(.labels[].name; . == "triaged") | not)
       | "#\(.number) \(.title)\t[assignees: \((.assignees | map(.login)) | join(",") // "none")]"'
 ```
 
@@ -64,7 +64,7 @@ rewrite, label or tag it. Never add or remove assignees yourself.
      be read two ways and the code does not settle it, that blocks the work and
      needs my call. Write the readings and their consequences.
 4. **Apply area and component labels** that aid filtering.
-5. **Mark it `claudeseen`** last, once title, body and labels are done.
+5. **Mark it `triaged`** last, once title, body and labels are done.
 
 Do each issue in one `gh issue edit <n> --title … --body-file … --add-label …`
 where practical.
@@ -75,7 +75,7 @@ where practical.
 - **Don't change issue state**, and don't close anything.
 - **Don't merge or split issues.** Both need my explicit instruction.
 - **Re-run the query before you finish.** The only issues that should still lack
-  `claudeseen` are human-assigned ones I haven't approved. A new unassigned issue
+  `triaged` are human-assigned ones I haven't approved. A new unassigned issue
   that arrived mid-run is in scope, so handle it too.
 - End with a short summary: which issues you touched, the labels you set, and any
   human-assigned ones you held back on. Note any Type or Priority that looks
