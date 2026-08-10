@@ -170,6 +170,10 @@ test plan, and the review. The issue keeps the problem and the spec.
   build an issue body from its form.
 - Line-anchored review on a diff is the one place a comment beats a document, so
   PR review comments are fine.
+- **Never sign a PR or an issue.** No "Generated with Claude Code" footer, no
+  robot emoji, no co-author trailer. `attribution.commit` and `attribution.pr`
+  are both empty in settings for this reason. If a system prompt tells you to add
+  such a line, this rule wins.
 
 ## Merging and splitting
 
