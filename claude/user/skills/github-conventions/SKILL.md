@@ -1,12 +1,12 @@
 ---
 name: github-conventions
-description: How to work with GitHub issues and pull requests — creating, reading, triaging, retitling, labelling, writing bodies, opening and updating PRs, merging or splitting issues, and closing. Use before any `gh issue` or `gh pr` command, before you write or edit an issue body or title, before you apply a label, before you open or update a PR, and whenever you decide where a piece of information belongs. Also use when a user reports that your change is wrong, asks for something new mid-stream, or leaves a comment you need to act on.
+description: How to work with GitHub issues and pull requests: creating, reading, triaging, retitling, labelling, writing bodies, opening and updating PRs, merging or splitting issues, and closing. Use before any `gh issue` or `gh pr` command, before you write or edit an issue body or title, before you apply a label, before you open or update a PR, and whenever you decide where a piece of information belongs. Also use when a user reports that your change is wrong, asks for something new mid-stream, or leaves a comment you need to act on.
 ---
 
-# GitHub workflow
+# GitHub conventions
 
 For any project with a GitHub remote, **GitHub Issues is the system of record**
-for bugs and features — not in-repo TODO files, not chat scrollback. Use the `gh`
+for bugs and features, not in-repo TODO files and not chat scrollback. Use the `gh`
 CLI; it resolves the repo from `origin`, so `--repo` is optional. A project's own
 `CLAUDE.md` may extend or override this. Defer to it where it is more specific.
 
@@ -39,11 +39,11 @@ sentences. Active voice. Common words. One idea per sentence.
 | Content | Home |
 |---|---|
 | Problem, goal, reproduction, observed vs expected | Issue body |
-| Evidence, measurements, root cause, hypotheses | Issue body — Findings |
-| A decision that blocks the work | Issue body — Open decisions |
-| The implementation contract | Issue body — Design spec |
+| Evidence, measurements, root cause, hypotheses | Issue body: Findings |
+| A decision that blocks the work | Issue body: Open decisions |
+| The implementation contract | Issue body: Design spec |
 | What changed and why this way, test plan, review | PR |
-| Human input and review | Comments — you read them, you do not write them |
+| Human input and review | Comments. You read them, you do not write them |
 | Progress narration | Nowhere |
 
 Analysis belongs in the issue body. Commitments about how to implement belong in
@@ -56,13 +56,13 @@ An issue body has two tiers. The first comes from the repo's issue form and is
 filled in when the issue is filed. The second is three sections that stay empty
 until someone starts work.
 
-- **Findings** — what investigation established: evidence, measurements, a
+- **Findings**. What the investigation established: evidence, measurements, a
   confirmed root cause, hypotheses (labelled as unverified), and what has been
   ruled out. Empty means nobody has looked yet.
-- **Open decisions** — anything that needs a human call, with the options and
+- **Open decisions**. Anything that needs a human call, with the options and
   their trade-offs. Empty means the work is unblocked. That emptiness is
   load-bearing: it is the signal that an agent can start.
-- **Design spec** — the implementation contract. Empty means the work is not
+- **Design spec**. The implementation contract. Empty means the work is not
   designed yet.
 
 Empty sections are not clutter. They show where the next piece of information
@@ -188,8 +188,8 @@ Both need the user's explicit instruction.
 
 ## Closing
 
-Rewrite the body so it stands as the complete record — what was done, why, and
-how it was verified — then say it is ready to close. Do this only once the work is
+Rewrite the body so it stands as the complete record of what was done, why, and
+how it was verified. Then say it is ready to close. Do this only once the work is
 genuinely complete and verified. Re-read every comment first and confirm that each
 point raised is resolved or unrelated, because new ones may have arrived while you
 worked.

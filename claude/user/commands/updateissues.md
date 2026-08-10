@@ -1,5 +1,5 @@
 ---
-description: Triage new GitHub issues — retitle, clarify, tag, mark as seen
+description: Triage new GitHub issues: retitle, clarify, tag, mark as seen
 argument-hint: [optional scope, e.g. an issue number or "all" for closed too]
 ---
 
@@ -17,11 +17,11 @@ Triage means titles, bodies and labels. No implementation, no state changes.
 ## Setup
 
 1. Read this project's `CLAUDE.md` for where its issues live and any extra label
-   axes it defines. If it names no GitHub issue tracker, STOP and tell me — don't
+   axes it defines. If it names no GitHub issue tracker, STOP and tell me. Do not
    guess a repo.
 2. Confirm access with `gh issue list`.
 3. Discover the available labels with `gh label list` and reuse existing ones.
-   Create `claudeseen` if it is missing — the whole mechanism depends on it:
+   Create `claudeseen` if it is missing. The whole mechanism depends on it:
    `gh label create claudeseen --description "Triaged by Claude" --color 8957e5`
 
 ## Find the work
@@ -37,7 +37,7 @@ one. If it says "all" (or "closed"), sweep `--state all` too.
 
 ## Assignee gate
 
-Unassigned issues are yours to triage freely — that is the normal case.
+Unassigned issues are yours to triage freely. That is the normal case.
 
 If an issue has a **human assignee**, someone is already working on it. Surface
 it, say who it is assigned to, and get my explicit approval before you retitle,
@@ -51,7 +51,7 @@ rewrite, label or tag it. Never add or remove assignees yourself.
    rules.
 3. **Rewrite the body** to the structure the skill defines, grounded in the
    codebase with `file:line` anchors where they help. Keep the effort
-   proportional to the issue — one that is already well-formed needs no rewrite.
+   proportional to the issue. One that is already well-formed needs no rewrite.
 4. **Apply area and component labels** that aid filtering.
 5. **Mark it `claudeseen`** last, once title, body and labels are done.
 
@@ -66,7 +66,7 @@ where practical.
   issues look like duplicates, say so in your summary and leave them alone.
 - **Re-run the query before you finish.** The only issues that should still lack
   `claudeseen` are human-assigned ones I haven't approved. A new unassigned issue
-  that arrived mid-run is in scope — handle it too.
+  that arrived mid-run is in scope, so handle it too.
 - End with a short summary: which issues you touched, the labels you set, and any
   human-assigned ones you held back on. Note any Type or Priority that looks
   wrong rather than changing it.

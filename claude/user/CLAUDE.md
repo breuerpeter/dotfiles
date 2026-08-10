@@ -69,7 +69,7 @@ Every Claude Code config file lives in `~/code/dotfiles/claude/` and is
 symlinked into `~/.claude/`. That covers `CLAUDE.md`, `settings.json`,
 `commands/*.md`, `skills/*/SKILL.md`, and `statusline.py`.
 
-Always write to the dotfiles path, never to the `~/.claude/` symlink — writing
+Always write to the dotfiles path, never to the `~/.claude/` symlink. Writing
 through a symlink is refused. When you add a new command or skill, create the
 file under `~/code/dotfiles/claude/user/` and symlink it into place, so it
 stays version-controlled with the rest.
