@@ -52,6 +52,17 @@ rewrite, label or tag it. Never add or remove assignees yourself.
 3. **Rewrite the body** to the structure the skill defines, grounded in the
    codebase with `file:line` anchors where they help. Keep the effort
    proportional to the issue. One that is already well-formed needs no rewrite.
+
+   Fill the fields the issue was filed with, and leave the later sections alone:
+
+   - **Design spec: never fill it here.** It is written after a design session,
+     never from a guess, and triage is a fast pass over a backlog.
+   - **Findings: usually leave empty.** Triage clarifies what was reported, it
+     does not investigate. Record something only if you actually verified it
+     while grounding the report, such as a referenced function having moved.
+   - **Open decisions: fill it when you hit a real ambiguity.** If the report can
+     be read two ways and the code does not settle it, that blocks the work and
+     needs my call. Write the readings and their consequences.
 4. **Apply area and component labels** that aid filtering.
 5. **Mark it `claudeseen`** last, once title, body and labels are done.
 
