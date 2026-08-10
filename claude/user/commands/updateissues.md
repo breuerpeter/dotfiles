@@ -8,7 +8,7 @@ Triage the GitHub issues in THIS project that I haven't reviewed yet. The
 new and needs your attention. Clean each one up, then tag it `claudeseen` so it
 drops off the list next time.
 
-**Load the `github-workflow` skill first.** It defines what a good title and a
+**Load the `github-conventions` skill first.** It defines what a good title and a
 good issue body look like, and this command does not repeat any of it. This file
 covers only what is specific to a triage run.
 

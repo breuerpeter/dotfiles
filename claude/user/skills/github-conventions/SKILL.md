@@ -1,5 +1,5 @@
 ---
-name: github-workflow
+name: github-conventions
 description: How to work with GitHub issues and pull requests — creating, reading, triaging, retitling, labelling, writing bodies, opening and updating PRs, merging or splitting issues, and closing. Use before any `gh issue` or `gh pr` command, before you write or edit an issue body or title, before you apply a label, before you open or update a PR, and whenever you decide where a piece of information belongs. Also use when a user reports that your change is wrong, asks for something new mid-stream, or leaves a comment you need to act on.
 ---
 
