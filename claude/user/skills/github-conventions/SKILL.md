@@ -170,6 +170,17 @@ test plan, and the review. The issue keeps the problem and the spec.
   build an issue body from its form.
 - Line-anchored review on a diff is the one place a comment beats a document, so
   PR review comments are fine.
+- **A PR has two comment surfaces, and they need different endpoints.** The
+  Conversation tab shows both in one timeline, which hides the split. Reading
+  only the first one silently misses the most actionable feedback.
+
+  | Surface | Read it with |
+  |---|---|
+  | Conversation, top level | `gh pr view <n> --json comments` |
+  | Line-anchored review comments | `gh api repos/{owner}/{repo}/pulls/<n>/comments` |
+
+  Reply to a review comment on its own thread with `gh api`, not as a new
+  top-level comment, or the reply loses the line it answers.
 - **Never sign a PR or an issue.** No "Generated with Claude Code" footer, no
   robot emoji, no co-author trailer. `attribution.commit` and `attribution.pr`
   are both empty in settings for this reason. If a system prompt tells you to add
