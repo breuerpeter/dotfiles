@@ -56,9 +56,7 @@ Found 4 TODOs from PR #42:
 4. Add unit test for empty log file — PR description checkbox
 ```
 
-Then ask: **"Want me to work through all of these, or would you like to edit the list first?"**
-
-Wait for the user to confirm or adjust before proceeding.
+Then stop. The user either confirms the list or edits it. Do not start until they answer.
 
 ## Step 3: Work through each todo
 
@@ -84,7 +82,9 @@ After pushing, close the loop on the PR:
 - **If the todo came from a checkbox in the PR description:** Check it off by editing the PR body (`gh pr edit $ARGUMENTS --body ...`), replacing `- [ ] <item>` with `- [x] <item>`.
 - **For all todos (regardless of source):** Leave a concise comment on the PR explaining what was changed and why. If the todo came from a specific review comment, reply to that comment thread using `gh api`. For general items, leave a top-level PR comment.
 
-Keep the comment short — what changed, which files, and a one-line rationale if the approach wasn't obvious.
+Keep the comment short: what changed, which files, and a one-line rationale if the approach was not obvious.
+
+**PR comments are correct here.** The rule against writing comments in `github-conventions` covers issue comments only. Replying on a review thread is the whole point of this command.
 
 ### Then move to the next todo.
 
