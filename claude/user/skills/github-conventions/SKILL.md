@@ -202,6 +202,14 @@ test plan, and the review. The issue keeps the problem and the spec.
 
 - Link them with `Closes #<n>` in the PR body. That fills the issue's Development
   sidebar and closes the issue when the PR merges.
+
+  **A prose mention is not a link.** "Moves the content out of #34" reads like a
+  reference and does nothing: no sidebar entry, no auto-close, and the issue is
+  left for a human to close by hand after the merge. Any PR that resolves or
+  supersedes an issue needs the keyword, not just the number. If a PR supersedes
+  an issue it does not fully resolve, say which parts survive and where they
+  went, then still close it: an issue nobody can finish is worse than one that
+  points somewhere.
 - Open a PR when code exists. A draft PR on an empty branch is not a design
   document; the issue's Design spec is.
 - Build the description from `.github/PULL_REQUEST_TEMPLATE.md`, the same way you
