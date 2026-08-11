@@ -64,10 +64,32 @@ rewrite, label or tag it. Never add or remove assignees yourself.
      be read two ways and the code does not settle it, that blocks the work and
      needs my call. Write the readings and their consequences.
 4. **Apply area and component labels** that aid filtering.
-5. **Mark it `triaged`** last, once title, body and labels are done.
+5. **Work out Type and Priority** if either is unset. Do not set them yet. See below.
+6. **Mark it `triaged`** last, once title, body and labels are done.
 
 Do each issue in one `gh issue edit <n> --title … --body-file … --add-label …`
 where practical.
+
+## Type and Priority
+
+I usually file an issue as a sentence or two with neither set, so working both out is part of triage. **Proposing them is yours, deciding is mine.**
+
+Read the whole body first. A one-line report is often enough to place the type; grounding it in the code usually settles the priority too.
+
+- **Type**: `Bug` when something is broken, `Feature` for a new capability, `Task` for a chore, refactor or infrastructure work.
+- **Priority**: `Urgent`, `High`, `Medium`, `Low`. Judge it on what it costs to leave alone, not on how interesting it is. Something that blocks other work, corrupts data or is user-visible outranks something that only annoys.
+
+Never touch a Type or Priority that is already set. If one looks wrong, say so and leave it.
+
+**Collect proposals across the whole run and put them in one table at the end**, so I answer once instead of per issue:
+
+```
+  #    Type      Priority   Why
+  61   Bug       High       Silently drops rows on a failed push; data loss, no warning
+  62   Task      Low        Tidy-up; nothing depends on it
+```
+
+One line of reasoning each, no essays. Then set only what I approve. The skill has the commands, and note that Priority needs GraphQL and two ids, not a label.
 
 ## Comment inbox
 

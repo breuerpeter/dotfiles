@@ -46,10 +46,28 @@ terminal and do need wrapping at 72.
   The one comment you may write is a **line-anchored review finding on a PR
   diff** — review is not discussion. Everything conversational stays yours to
   read only.
-- **Type and Priority belong to the user.** Read them, never write them. If one
-  looks wrong, say so instead of changing it. The native Priority field is
-  settable only through the GraphQL `setIssueFieldValue` mutation; use it when
-  the user explicitly instructs, never on your own.
+- **Never set Type or Priority without the user agreeing first.** Proposing them is your job, deciding is theirs. The user often files an issue as a sentence with neither field set, and expects triage to work out both. Propose each with a one-line reason, show them together, and set only what they approve. Never set one silently, and never change one that is already set: say it looks wrong instead.
+
+  Type is native, `Bug` / `Feature` / `Task`, and set with `gh issue edit <n> --type Bug`.
+
+  Priority is a native single-select on the organization, `Urgent` / `High` / `Medium` / `Low`. It is not a label. Setting it needs GraphQL and two ids, the field's and the chosen option's:
+
+  ```
+  gh api graphql -f query='{ organization(login:"<org>"){ issueFields(first:10){ nodes{
+      ... on IssueFieldSingleSelect { id name options { id name } } } } } }'
+  ```
+
+  ```
+  gh api graphql -f query='
+  mutation($issue:ID!,$field:ID!,$option:ID!){
+    setIssueFieldValue(input:{ issueId:$issue,
+      issueFields:[{fieldId:$field, singleSelectOptionId:$option}] }){ clientMutationId }
+  }' -f issue=<issue-node-id> -f field=<field-id> -f option=<option-id>
+  ```
+
+  Clear a value with `issueFields:[{fieldId:$field, delete:true}]`.
+
+  **`suggest: true` does not work.** The input accepts `suggest`, `rationale` and `confidence`, which read as a propose-do-not-decide channel. Tested on 2026-08-11: the value applied immediately and nothing was left pending. Do not reach for it as a way to avoid asking.
 - **Never use a label to record type or priority.** The default `bug` and
   `enhancement` labels, and any `feature`, `task`, `type:` or `priority:` label,
   duplicate the native fields.
