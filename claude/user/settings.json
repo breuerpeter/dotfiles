@@ -48,7 +48,7 @@
     "defaultMode": "auto",
     "additionalDirectories": []
   },
-  "model": "fable",
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
