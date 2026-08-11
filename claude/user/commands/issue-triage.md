@@ -47,13 +47,23 @@ rewrite, label or tag it. Never add or remove assignees yourself.
 
 1. **Read it fully, including comments** (`gh issue view <n> --comments`). I add
    context and "not fully fixed yet" notes there; honour the latest ones.
-2. **Retitle** it if the current title is vague, following the skill's title
+2. **Settle the Type before touching the body**, because the body's shape comes
+   from that type's form. If the Type is unset, decide the one you will propose
+   and draft against it. If it is already set, use its form even if you would
+   have chosen differently.
+3. **Retitle** it if the current title is vague, following the skill's title
    rules.
-3. **Rewrite the body** to the structure the skill defines, grounded in the
-   codebase with `file:line` anchors where they help. Keep the effort
-   proportional to the issue. One that is already well-formed needs no rewrite.
+4. **Rewrite the body** against `.github/ISSUE_TEMPLATE/<type>.yml`: its fields
+   as `##` headings, in the order the form declares them, then the three later
+   sections. Read the form, do not recall it. Ground the content in the codebase
+   with `file:line` anchors where they help. Keep the effort proportional. One
+   that is already well-formed needs no rewrite.
 
-   Fill the fields the issue was filed with, and leave the later sections alone:
+   An issue I filed as one sentence has no structure at all. Build it, move the
+   sentence into the field it belongs in, and leave the rest empty.
+
+   Fill the form's own fields from what the report says. Leave the three later
+   sections alone, with one exception:
 
    - **Design spec: never fill it here.** It is written after a design session,
      never from a guess, and triage is a fast pass over a backlog.
@@ -63,8 +73,7 @@ rewrite, label or tag it. Never add or remove assignees yourself.
    - **Open decisions: fill it when you hit a real ambiguity.** If the report can
      be read two ways and the code does not settle it, that blocks the work and
      needs my call. Write the readings and their consequences.
-4. **Apply area and component labels** that aid filtering.
-5. **Work out Type and Priority** if either is unset. Do not set them yet. See below.
+5. **Apply area and component labels** that aid filtering.
 6. **Mark it `triaged`** last, once title, body and labels are done.
 
 Do each issue in one `gh issue edit <n> --title … --body-file … --add-label …`
@@ -74,7 +83,7 @@ where practical.
 
 I usually file an issue as a sentence or two with neither set, so working both out is part of triage. **Proposing them is yours, deciding is mine.**
 
-Read the whole body first. A one-line report is often enough to place the type; grounding it in the code usually settles the priority too.
+You settled the Type at step 2 in order to shape the body. Carry that proposal here rather than deciding twice, and work out the Priority alongside it.
 
 - **Type**: `Bug` when something is broken, `Feature` for a new capability, `Task` for a chore, refactor or infrastructure work.
 - **Priority**: `Urgent`, `High`, `Medium`, `Low`. Judge it on what it costs to leave alone, not on how interesting it is. Something that blocks other work, corrupts data or is user-visible outranks something that only annoys.

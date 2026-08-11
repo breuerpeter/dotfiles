@@ -98,6 +98,18 @@ An issue body has two tiers. The first comes from the repo's issue form and is
 filled in when the issue is filed. The second is three sections that stay empty
 until someone starts work.
 
+**The form is the one for the issue's Type**, so a Bug body carries `bug.yml`'s
+fields and a Feature body carries `feature.yml`'s. Read the form rather than
+recalling it: the fields differ per repo, and a body invented from memory drifts
+from what the next filed issue looks like.
+
+An issue filed as a bare sentence has no first tier at all. Build it: once the
+Type is settled, render that form's fields as `##` headings in the order the form
+declares them, move what the report already said into the right ones, and leave
+the rest empty. If the Type is already set, its form is the one to follow even if
+you would have chosen a different type. Say it looks wrong; do not restructure
+the body around a type nobody agreed to.
+
 - **Findings**. What the investigation established: evidence, measurements, a
   confirmed root cause, hypotheses (labelled as unverified), and what has been
   ruled out. Empty means nobody has looked yet.
