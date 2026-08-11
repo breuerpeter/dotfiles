@@ -206,6 +206,16 @@ test plan, and the review. The issue keeps the problem and the spec.
   document; the issue's Design spec is.
 - Build the description from `.github/PULL_REQUEST_TEMPLATE.md`, the same way you
   build an issue body from its form.
+- **The test plan says what CI cannot.** Never list a command CI already runs. A
+  green PR proves those, and repeating them adds nothing while going stale the
+  moment a workflow changes. Read `.github/workflows/` before writing one.
+
+  What belongs there: manual steps, one-off checks, the thing you ran on
+  hardware, and above all **what you did not verify**. A test plan whose most
+  useful line is an omission is doing its job.
+
+  The same rule governs the checklist: an item CI enforces is not worth a human
+  ticking it.
 - Line-anchored review on a diff is the one place a comment beats a document.
   Posting review **findings** as line-anchored review comments is the one
   comment write you may make — your own findings, or an external reviewer's
