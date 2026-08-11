@@ -16,6 +16,13 @@ single source of truth, and you never write discussion comments.
 Write every issue body, PR description and title in plain, simple English. Short
 sentences. Active voice. Common words. One idea per sentence.
 
+**Never hard-wrap an issue or PR body.** Write one line per paragraph and per
+list item, however long, and let the browser wrap it. GitHub renders a single
+newline inside a paragraph as a real line break, so wrapping the source wraps
+the display: the text sits in a ragged half-width column that no window size
+fixes. This is the opposite of the rule for commit messages, which are read in a
+terminal and do need wrapping at 72.
+
 ## The rules you cannot break
 
 - **Never close an issue.** `gh issue close` is denied. A `Closes #<n>` in a
