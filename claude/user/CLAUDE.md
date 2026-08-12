@@ -80,8 +80,9 @@ stays version-controlled with the rest.
 Load the `simple-english` skill (ASD-STE100) before writing or rewriting any
 persistent prose deliverable, and apply its rules to the text. In scope:
 documentation files (docs, READMEs, runbooks, release notes), GitHub issue and
-PR bodies **and titles**, and milestone descriptions. Out of scope: chat
-responses, code, code comments, commit messages, and progress-log entries.
+PR bodies **and titles**, milestone descriptions, commit messages, and code
+comments. Out of scope: chat responses (session style rules govern those) and
+progress-log entries (telegraphic working notes by design).
 
 Where a structural convention overlaps (e.g. github-conventions' title and
 body rules), apply both: STE governs sentence-level style, the convention
