@@ -74,3 +74,16 @@ through a symlink is refused. When you add a new command or skill, create the
 file under `~/code/dotfiles/claude/user/` and symlink it into place, so it
 stays version-controlled with the rest.
 
+
+## Simplified Technical English for persistent prose
+
+Load the `simple-english` skill (ASD-STE100) before writing or rewriting any
+persistent prose deliverable, and apply its rules to the text. In scope:
+documentation files (docs, READMEs, runbooks, release notes), GitHub issue and
+PR bodies **and titles**, and milestone descriptions. Out of scope: chat
+responses, code, code comments, commit messages, and progress-log entries.
+
+Where a structural convention overlaps (e.g. github-conventions' title and
+body rules), apply both: STE governs sentence-level style, the convention
+governs structure and placement. If they conflict, the convention wins and the
+conflict is worth mentioning.
