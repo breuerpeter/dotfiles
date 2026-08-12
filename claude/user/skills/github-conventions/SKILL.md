@@ -78,8 +78,11 @@ terminal and do need wrapping at 72.
 
   Every milestone description follows one format:
   `[Walu](<Walu link>) - <sub-30-word description of the milestone>`.
-  When you see one that doesn't, flag it and propose the conforming text; the
-  Walu link points at the milestone's counterpart in the Walu tracker.
+  The one exception is the **Backlog** milestone: it is self-explanatory,
+  so its description stays empty and is never flagged. For any other
+  milestone that does not conform, flag it and propose the conforming
+  text; the Walu link points at the milestone's counterpart in the Walu
+  tracker.
 - **Never merge or split issues on your own initiative.** Both need the user's
   explicit instruction.
 
