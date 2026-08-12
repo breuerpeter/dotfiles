@@ -71,8 +71,10 @@ terminal and do need wrapping at 72.
 - **Never use a label to record type or priority.** The default `bug` and
   `enhancement` labels, and any `feature`, `task`, `type:` or `priority:` label,
   duplicate the native fields.
-- **Never create a milestone, and never assign an issue to one.** The user manages
-  those. Read them to understand scope: `gh issue list --milestone "<name>"`.
+- **Never create a milestone.** Creating them is the user's call. Assigning an
+  issue to an existing milestone is allowed and expected when the issue clearly
+  belongs to it (`gh issue edit <n> --milestone "<name>"`). Read them to
+  understand scope: `gh issue list --milestone "<name>"`.
 - **Never merge or split issues on your own initiative.** Both need the user's
   explicit instruction.
 
@@ -209,7 +211,7 @@ The triage worklist is every open issue that lacks it. Create it if it is
 missing:
 
 ```
-gh label create triaged --description "Triaged: title and body are clear and accurate" --color 8957e5
+gh label create triaged --description "Triaged: title and body are clear and accurate" --color 6366F1
 ```
 
 ## Working an issue
@@ -290,7 +292,7 @@ they compose.
 
 | Mechanism | Question | Who sets it |
 |---|---|---|
-| Milestone | When does this ship | The user, alone |
+| Milestone | When does this ship | The user creates; anyone assigns |
 | Sub-issue | What is this part of | Composition |
 | `--blocked-by` / `--blocking` | What order must these run in | Dependency |
 
