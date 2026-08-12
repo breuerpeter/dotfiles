@@ -75,6 +75,11 @@ terminal and do need wrapping at 72.
   issue to an existing milestone is allowed and expected when the issue clearly
   belongs to it (`gh issue edit <n> --milestone "<name>"`). Read them to
   understand scope: `gh issue list --milestone "<name>"`.
+
+  Every milestone description follows one format:
+  `[Walu](<Walu link>) - <sub-30-word description of the milestone>`.
+  When you see one that doesn't, flag it and propose the conforming text; the
+  Walu link points at the milestone's counterpart in the Walu tracker.
 - **Never merge or split issues on your own initiative.** Both need the user's
   explicit instruction.
 

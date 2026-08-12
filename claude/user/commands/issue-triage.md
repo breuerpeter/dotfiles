@@ -47,6 +47,12 @@ rewrite, label or tag it. Never add or remove assignees yourself.
 
 1. **Read it fully, including comments** (`gh issue view <n> --comments`). I add
    context and "not fully fixed yet" notes there; honour the latest ones.
+
+   **React 👍 on each comment as you absorb it into the body**, exactly as the
+   comment inbox does. The two paths must leave the same trace, or the comments
+   on an issue you triage today come back as unprocessed work tomorrow, once the
+   issue carries `triaged` and the inbox starts sweeping it. A comment that needs
+   a human reply gets a draft in chat and no reaction.
 2. **Settle the Type before touching the body**, because the body's shape comes
    from that type's form. If the Type is unset, decide the one you will propose
    and draft against it. If it is already set, use its form even if you would
@@ -103,26 +109,63 @@ One line of reasoning each, no essays. Then set only what I approve. The skill h
 ## Comment inbox
 
 The 👍 reaction marks a comment as absorbed (see the skill). Triage is the only
-pass that sweeps the whole repo, so it also owns the inbox: comments on
-already-triaged issues that nobody absorbed yet.
+pass that sweeps the whole backlog, so it also owns the inbox: comments on
+**open**, already-triaged issues that nobody absorbed yet.
+
+Scope the sweep to open triaged issues first, then filter the comment feed
+against it. Deriving the scope from `gh issue list` excludes closed issues and
+pull requests structurally, so neither can leak in:
 
 ```
+gh issue list --state open --limit 200 --json number,labels \
+  --jq '[.[] | select(any(.labels[].name; . == "triaged")) | .number]' > /tmp/inbox-scope.json
+
 gh api "repos/{owner}/{repo}/issues/comments" --paginate \
-  --jq '.[] | select(.reactions["+1"] == 0) | {url: .html_url, issue: .issue_url, preview: .body[0:100]}'
+  | jq -r --slurpfile scope /tmp/inbox-scope.json '
+      .[] | select(.reactions["+1"] == 0)
+          | select((.issue_url | split("/") | last | tonumber) as $n | $scope[0] | index($n))
+          | "\(.id)\t\(.html_url)\t\(.body[0:100])"'
 ```
 
-- Skip comments on issues that lack `triaged`; the main pass reads those in
-  full.
-- Skip comments that belong to a PR (the issue fetch shows a `pull_request`
-  key); those are `/pr-todos` territory.
+- **Leave closed issues alone entirely.** Do not absorb into them, do not react
+  on their comments, do not mention them. A closed issue is off the worklist, so
+  there is no work for the 👍 to record. If a closed issue's body is wrong or its
+  comments were never absorbed, say so in chat and change nothing.
+- Comments on issues that lack `triaged` are the main pass's job, not the
+  inbox's. It reads those in full at step 1.
+- Comments on a PR are `/pr-todos` territory.
 - For each of the rest: absorb anything substantive into the issue body, then
   react 👍 on the comment. A comment that needs a human reply gets a draft in
   chat instead, and no reaction until the point is settled.
+
+## Organization pass
+
+Triage is the only pass that sees the whole backlog at once, so it also owns two
+invariants. Run this after the per-issue loop.
+
+- **Every open issue sits on a milestone.** For each one that doesn't: if it
+  fits a milestone that already exists, point that out in the summary — fit is
+  a judgment call, so propose it rather than assign it. If it fits none, assign
+  it to the **Backlog** milestone yourself (`gh issue edit <n> --milestone
+  Backlog`). If no Backlog milestone exists, say so and stop there; creating
+  milestones stays mine.
+- **Every issue is atomic — no umbrella issues.** The telling indicator is an
+  issue whose contents have different blockers: some parts unblocked, some
+  blocked, or blocked by different things. A goal-holder issue that merely
+  restates its milestone is the same smell. Propose the split; never execute
+  one without my explicit instruction. When a split is designed, its pieces
+  must be **individually and sequentially shippable**: honouring whatever
+  ordering the `Blocked by` links impose, landing them one at a time must
+  leave main working at every point in between — a piece that would break the
+  build until its sibling lands is cut wrong.
 
 ## Rules
 
 - **Don't lose information.** The rewrite clarifies; it never drops a fact.
 - **Don't change issue state**, and don't close anything.
+- **Don't touch closed issues at all**, in any part of the run, unless
+  `$ARGUMENTS` explicitly says "all" or "closed". No body edits, no labels, no
+  reactions. They are closed for a reason.
 - **Don't merge or split issues.** Both need my explicit instruction.
 - **Re-run the query before you finish.** The only issues that should still lack
   `triaged` are human-assigned ones I haven't approved. A new unassigned issue
@@ -133,21 +176,20 @@ gh api "repos/{owner}/{repo}/issues/comments" --paginate \
 
 ## Structure notes
 
-Close the summary with what you noticed about how the issues relate. Triage is
-the only pass that sees the whole backlog at once. **Report all of it, change
-none of it.**
+Close the summary with what you noticed about how the issues relate. Beyond the
+organization pass above (which acts), these are report-only:
 
-- **Milestones.** Issues that belong to a milestone that already exists, and any
-  cluster that looks like a milestone nobody has created yet. Milestones are mine
-  alone, so a suggestion is the only way you can act on one.
-- **Sub-issues.** Two issues where one is genuinely part of the other, or one
-  issue that is really several independent pieces of work. Apply the test in
-  `github-conventions`: a piece earns its own issue when it needs its own
-  Findings or its own Open decisions.
-- **Dependencies.** Any issue that cannot start until another one lands.
+- **Milestone clusters.** Any group of issues that looks like a milestone nobody
+  has created yet. Creating one is mine alone, so a suggestion is the only way
+  you can act on it.
+- **Sub-issues.** Two issues where one is genuinely part of the other. Apply the
+  test in `github-conventions`: a piece earns its own issue when it needs its
+  own Findings or its own Open decisions.
+- **Dependencies.** Any issue that cannot start until another one lands, where
+  the `Blocked by` link is missing.
 - **Duplicates.** Issues covering the same ground.
 
-Suggest all four in chat. Never create the link, the milestone or the split.
+Suggest these in chat. Never create the milestone, the merge or the split.
 
 Most issues at triage time have no Design spec yet, so the spec-level sub-issue
 question rarely fires here. It belongs to whoever writes the spec.
