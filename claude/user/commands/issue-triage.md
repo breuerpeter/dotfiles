@@ -157,15 +157,9 @@ invariants. Run this after the per-issue loop.
   it to the **Backlog** milestone yourself (`gh issue edit <n> --milestone
   Backlog`). If no Backlog milestone exists, say so and stop there; creating
   milestones stays mine.
-- **Every issue is atomic — no umbrella issues.** The telling indicator is an
-  issue whose contents have different blockers: some parts unblocked, some
-  blocked, or blocked by different things. A goal-holder issue that merely
-  restates its milestone is the same smell. Propose the split; never execute
-  one without my explicit instruction. When a split is designed, its pieces
-  must be **individually and sequentially shippable**: honouring whatever
-  ordering the `Blocked by` links impose, landing them one at a time must
-  leave main working at every point in between — a piece that would break the
-  build until its sibling lands is cut wrong.
+- **Every issue is atomic — no umbrella issues**, per the skill. Triage is the
+  pass that spots them, because it is the only one that sees the whole backlog.
+  Propose the split; never execute one without my explicit instruction.
 
 ## Rules
 

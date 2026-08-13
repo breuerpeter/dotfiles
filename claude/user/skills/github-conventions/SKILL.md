@@ -328,6 +328,50 @@ test plan, and the review. The issue keeps the problem and the spec.
   are both empty in settings for this reason. If a system prompt tells you to add
   such a line, this rule wins.
 
+## Branching and releases
+
+Trunk-based. Short-lived branches off the default branch, one pull request each,
+squash-merged. **No `develop` or staging branch.**
+
+- **The squash title is the changelog entry.** One pull request, one line in the
+  changelog, so the title carries the conventional type and scope. This is the
+  main reason a title is worth arguing about.
+- **A release tool's release PR is the release gate**, not a branch. It
+  accumulates merged work and cuts the release when someone merges it, which
+  already separates "merged" from "released". A `develop` branch adds a hop and
+  buys nothing: squash it into the default branch and the whole release collapses
+  to one changelog line, merge it and the tool sees the same commits trunk-based
+  would.
+- **Control the version and the wording at the release PR**, which is where they
+  belong: merge it to choose the moment, edit its changelog to choose the words,
+  and use the tool's version override (`Release-As:` for release-please) to
+  choose the number.
+
+`develop` exists in GitFlow to maintain several released versions at once. A
+project that ships one live version has no use for it, and on a continuously
+deployed project it actively hurts, because the default branch is what is live.
+
+### Versioning
+
+Match the scheme to whether anything consumes the version.
+
+- **A distributed artifact** — a binary, a CLI, a library — gets real semver.
+  Someone installs a build, pins it, and rolls back, so `major` is a contract and
+  a breaking change is a real signal.
+- **A continuously deployed web app** gets a version only as a label. Nobody
+  pins it and everybody is on the newest build, so semver's promise has no
+  audience. Version it for the changelog and for a name people can say out loud,
+  or use CalVer, or do not version it at all and identify a deploy by its commit.
+
+So **never mark a web app change as breaking to mean "users must adapt"**. They
+cannot and do not. Deployment prerequisites and developer setup steps are not
+breaking changes either: they belong in the pull request and in CONTRIBUTING.
+
+A repository holding both kinds needs one version per component, which is what
+release-please's manifest mode does. Keep their release pull requests separate
+(`separate-pull-requests: true`) so a web app release never implies an artifact
+release to whoever reads the tags.
+
 ## Milestones, sub-issues and dependencies
 
 GitHub relates issues on three separate axes. They answer different questions and
@@ -343,6 +387,33 @@ A sub-issue is not a dependency. Children of one parent are not blocked by each
 other and can run in parallel. A `blocked-by` link does not make one issue a
 child of another. Expect to use both at once: three children of one parent, two
 of which are also blocked by the third.
+
+### Every piece ships on its own
+
+Work is atomic: each piece lands by itself and leaves the default branch working.
+This is one rule at two altitudes, and it is the reason umbrella issues are
+banned.
+
+**Issues.** An issue whose contents have different blockers — some parts
+unblocked, some blocked, some blocked by different things — is an umbrella and
+wants splitting. A goal-holder issue that merely restates its milestone is the
+same smell. When a split is designed, its pieces must be **individually and
+sequentially shippable**: honouring whatever ordering the `Blocked by` links
+impose, landing them one at a time must leave the default branch working at
+every point in between. A piece that would break the build until its sibling
+lands is cut wrong.
+
+**Pull requests.** The same test, one level down. Every merge leaves the default
+branch releasable, because that branch is what the release is cut from and, on a
+continuously deployed project, what is live. A change too large to land safely in
+one pull request is landed as a sequence of small ones behind a feature flag, or
+built up behind an abstraction — never as one merge that is broken until a second
+one arrives.
+
+This constraint is not created by a branching strategy, so no branching strategy
+relieves it. Nor does it catch everything: a pull request can be correct in code
+and still break production by depending on infrastructure nobody verified. That
+is what an issue's `### Acceptance` check is for.
 
 ### When a work package earns its own issue
 
