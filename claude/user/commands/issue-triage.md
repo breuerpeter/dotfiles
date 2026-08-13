@@ -68,6 +68,9 @@ rewrite, label or tag it. Never add or remove assignees yourself.
    An issue I filed as one sentence has no structure at all. Build it, move the
    sentence into the field it belongs in, and leave the rest empty.
 
+   An issue that already has a body gets rewritten, never appended to, per the
+   skill.
+
    Fill the form's own fields from what the report says. Leave the three later
    sections alone, with one exception:
 
@@ -137,6 +140,11 @@ gh api "repos/{owner}/{repo}/issues/comments" --paginate \
 - For each of the rest: absorb anything substantive into the issue body, then
   react 👍 on the comment. A comment that needs a human reply gets a draft in
   chat instead, and no reaction until the point is settled.
+
+Absorbing means rewriting the sections the comment touches, not adding a block
+that records what the comment said. The comment arrives with a date attached, and
+that date looks like structure, so this is where the skill's rewrite-never-append
+rule is easiest to break.
 
 ## Organization pass
 

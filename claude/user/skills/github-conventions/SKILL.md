@@ -100,7 +100,9 @@ terminal and do need wrapping at 72.
 
 Analysis belongs in the issue body. Commitments about how to implement belong in
 the Design spec, or in the PR once code exists. If you catch yourself writing a
-history of what happened, stop and update the body instead.
+history of what happened, stop and update the body instead. Appending that
+history *inside* the body is the same mistake wearing a disguise — see
+"Updating a body: rewrite, never append".
 
 ## Issue body structure
 
@@ -123,6 +125,11 @@ the body around a type nobody agreed to.
 - **Findings**. What the investigation established: evidence, measurements, a
   confirmed root cause, hypotheses (labelled as unverified), and what has been
   ruled out. Empty means nobody has looked yet.
+
+  **Findings is a state of knowledge, not a log of visits.** Write it in the
+  present tense, as what is true now. It never carries dated `### Update`
+  blocks, a "part 1 / part 2" narrative, or any other section whose organising
+  principle is when you learned something.
 - **Open decisions**. Anything that needs a human call, with the options and
   their trade-offs. Empty means the work is unblocked. That emptiness is
   load-bearing: it is the signal that an agent can start.
@@ -146,6 +153,33 @@ Empty sections are not clutter. They show where the next piece of information
 goes. Keep them. GitHub writes the literal string `_No response_` into unfilled
 form fields; when you next edit the body, delete that string and keep the
 heading.
+
+### Updating a body: rewrite, never append
+
+The body always reads as the current state of the issue. Somebody who reads it
+cold, and nothing else, must end up with today's picture. That is the whole
+point of keeping it as the source of truth.
+
+So every edit is a rewrite of the sections the new information touches. Fold the
+new fact into the sentence that made the old claim. Delete what the new fact
+supersedes. Keep the history that is still evidence, and rewrite it into the
+present tense.
+
+Never append. An `## Update <date>` heading, a "part 1 / part 2" pair, a
+`**Status:**` line at the bottom, or a new paragraph that starts "as of" are all
+the same mistake: the reader now has to diff two accounts to work out what is
+true. The changelog already exists in three better places — git, the PR, and the
+comment thread. The body's job is the answer, not the journey to it.
+
+Some history is evidence and must survive. The test is whether the date carries
+a fact. "Two probes a day apart returned byte-identical header lists" is a
+finding, because the repetition is the evidence; write it as one present-tense
+sentence with the dates as data. "On 2026-08-12 I checked and it still failed"
+is a status update; it survives only as the current claim, "the check fails",
+with its evidence attached.
+
+When a rewrite would drop something you are not sure about, keep it and say why
+it still matters. Losing a fact is the worse error of the two.
 
 ### What makes a Design spec sufficient
 
@@ -230,7 +264,8 @@ gh label create triaged --description "Triaged: title and body are clear and acc
 2. **Keep the body current.** When the user tests your change and reports that it
    is wrong, asks for something new mid-stream, or a reviewer raises a point,
    update the body so it reflects the new truth. Never leave the live answer only
-   in a comment thread.
+   in a comment thread. Rewrite the sections the new truth touches; do not append
+   an update block. See "Updating a body: rewrite, never append".
 3. **Absorb comments, do not answer them.** Take what is substantive into the
    body, react 👍 on the comment, and leave it as the record that the point was
    raised. Unreacted comments are the inbox: any pass that sweeps the repo

@@ -31,7 +31,8 @@ Load the `github-conventions` skill first.
    one answer. Record the answer in Findings, then delete the branch. A spike
    that survives into the implementation is no longer a spike.
 6. **Write the Findings section.** Show me the body text in chat before you post
-   it.
+   it. When Findings already has content, rewrite it rather than append to it,
+   per the skill.
 
 ## Open decisions
 
