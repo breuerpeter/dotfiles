@@ -437,6 +437,19 @@ nothing, do not create it.
 Limits: 100 sub-issues per parent, 8 levels of nesting, one parent per issue.
 A sub-issue may live in a different repository.
 
+### Across repositories
+
+Dependencies cross repositories, milestones do not.
+
+`--add-blocked-by` and `--add-blocking` take a full issue URL as well as a
+number, so a chain that spans two repositories links up normally. Pass the URL
+whenever the other issue is not in the same repo — a bare number resolves
+against the current one and links the wrong issue or fails.
+
+A milestone belongs to one repository, so work spanning two needs the same
+milestone created in each, with the same description. Neither half can see the
+other's progress bar; the dependency links are what tie them together.
+
 ## Merging and splitting
 
 Both need the user's explicit instruction.
