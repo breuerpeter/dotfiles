@@ -16,12 +16,22 @@ single source of truth, and you never write discussion comments.
 Write every issue body, PR description and title in plain, simple English. Short
 sentences. Active voice. Common words. One idea per sentence.
 
-**Never hard-wrap an issue or PR body.** Write one line per paragraph and per
-list item, however long, and let the browser wrap it. GitHub renders a single
-newline inside a paragraph as a real line break, so wrapping the source wraps
-the display: the text sits in a ragged half-width column that no window size
-fixes. This is the opposite of the rule for commit messages, which are read in a
-terminal and do need wrapping at 72.
+**Never hard-wrap prose.** This holds for an issue body, a PR body and a commit
+body alike. Write one line per paragraph and per list item, however long, and
+let the reader's window wrap it.
+
+Every surface that displays them soft-wraps: browsers reflow, and terminals
+wrap long lines too, so `git log` reads fine unwrapped. A hard wrap is a real
+newline that nothing can undo, so it is right at exactly one width and worse at
+every other — a ragged half-width column in a browser, in a GitKraken panel, or
+in any terminal that is not 80 columns.
+
+The 72-column commit convention comes from the kernel's email-patch workflow,
+where messages pass through mail clients that genuinely cannot reflow. That
+constraint does not apply here.
+
+The **subject line** is the exception, because it is truncated rather than
+wrapped: keep it under about 72 characters, and nearer 50 where you can.
 
 ## The rules you cannot break
 
