@@ -358,19 +358,39 @@ Match the scheme to whether anything consumes the version.
 - **A distributed artifact** — a binary, a CLI, a library — gets real semver.
   Someone installs a build, pins it, and rolls back, so `major` is a contract and
   a breaking change is a real signal.
-- **A continuously deployed web app** gets a version only as a label. Nobody
-  pins it and everybody is on the newest build, so semver's promise has no
-  audience. Version it for the changelog and for a name people can say out loud,
-  or use CalVer, or do not version it at all and identify a deploy by its commit.
+- **A continuously deployed web app gets no version.** Nobody pins it and
+  everybody is on the newest build, so semver's promise has no audience. A
+  deploy is identified by its commit. Keep the app out of the release tooling
+  altogether: no tags, no generated changelog, no release pull request.
 
 So **never mark a web app change as breaking to mean "users must adapt"**. They
 cannot and do not. Deployment prerequisites and developer setup steps are not
 breaking changes either: they belong in the pull request and in CONTRIBUTING.
 
-A repository holding both kinds needs one version per component, which is what
-release-please's manifest mode does. Keep their release pull requests separate
-(`separate-pull-requests: true`) so a web app release never implies an artifact
-release to whoever reads the tags.
+A repository holding both kinds versions only the artifact. Its release tooling
+lists that component alone, so an app change can never imply an artifact release
+to whoever reads the tags.
+
+### Telling people what changed
+
+Wanting to tell a team what shipped is the usual reason somebody reaches for a
+version. Reach for one of these instead, because a generated changelog does that
+job badly: it is built from commit subjects, written for the people who wrote
+them, and its completeness is what makes it unreadable to everyone else.
+
+- **A closed milestone** is the best of them. Its issue titles are already plain
+  language, it is already curated, and it has a URL.
+- **A few sentences written by hand** when something user-visible ships. This is
+  the only option that produces prose the reader is not decoding.
+- **The default branch's history**, for a date-bounded question. Every merge is
+  one squashed commit with a conventional title, so the history already is the
+  changelog. On GitHub, `/commits/<branch>?since=YYYY-MM-DD&until=YYYY-MM-DD`
+  is the shareable form.
+
+If a project genuinely needs to name batches of work, CalVer beats semver for
+it, because a date invites nobody to read meaning into a major number. Note that
+it needs three numeric parts with no leading zeros to stay valid for npm
+(`2026.8.1`, not `2026.08.13`).
 
 ## Milestones, sub-issues and dependencies
 
