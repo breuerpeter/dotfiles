@@ -371,27 +371,6 @@ A repository holding both kinds versions only the artifact. Its release tooling
 lists that component alone, so an app change can never imply an artifact release
 to whoever reads the tags.
 
-### Telling people what changed
-
-Wanting to tell a team what shipped is the usual reason somebody reaches for a
-version. Reach for one of these instead, because a generated changelog does that
-job badly: it is built from commit subjects, written for the people who wrote
-them, and its completeness is what makes it unreadable to everyone else.
-
-- **A closed milestone** is the best of them. Its issue titles are already plain
-  language, it is already curated, and it has a URL.
-- **A few sentences written by hand** when something user-visible ships. This is
-  the only option that produces prose the reader is not decoding.
-- **The default branch's history**, for a date-bounded question. Every merge is
-  one squashed commit with a conventional title, so the history already is the
-  changelog. On GitHub, `/commits/<branch>?since=YYYY-MM-DD&until=YYYY-MM-DD`
-  is the shareable form.
-
-If a project genuinely needs to name batches of work, CalVer beats semver for
-it, because a date invites nobody to read meaning into a major number. Note that
-it needs three numeric parts with no leading zeros to stay valid for npm
-(`2026.8.1`, not `2026.08.13`).
-
 ## Milestones, sub-issues and dependencies
 
 GitHub relates issues on three separate axes. They answer different questions and
