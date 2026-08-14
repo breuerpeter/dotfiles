@@ -5,6 +5,10 @@ import sys
 # json.load reads and parses stdin in one step
 data = json.load(sys.stdin)
 model = data["model"]["display_name"]
+# "effort" is only present for models that support a reasoning-effort setting
+effort = (data.get("effort") or {}).get("level")
+if effort:
+    model = f"{model} \033[2m{effort}\033[22m"
 import os, subprocess, re
 project_dir = data.get("workspace", {}).get("project_dir", "")
 project = os.path.basename(project_dir)
