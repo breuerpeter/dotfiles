@@ -75,16 +75,32 @@ file under `~/code/dotfiles/claude/user/` and symlink it into place, so it
 stays version-controlled with the rest.
 
 
-## Simplified Technical English for persistent prose
+## Simple technical English, and Orwell's six rules
 
-Load the `simple-english` skill (ASD-STE100) before writing or rewriting any
-persistent prose deliverable, and apply its rules to the text. In scope:
-documentation files (docs, READMEs, runbooks, release notes), GitHub issue and
-PR bodies **and titles**, milestone descriptions, commit messages, and code
-comments. Out of scope: chat responses (session style rules govern those) and
-progress-log entries (telegraphic working notes by design).
+Write simple technical English. Short sentences. Active voice. Common words.
+One idea per sentence. The same word for the same thing every time.
+
+Apply Orwell's six rules to every word you write:
+
+1. Never use a metaphor or other figure of speech which you are used to seeing
+   in print.
+2. Never use a long word where a short one will do.
+3. If it is possible to cut a word out, always cut it out.
+4. Never use the passive where you can use the active.
+5. Never use a foreign phrase, a scientific word, or a jargon word if you can
+   think of an everyday English equivalent.
+6. Break any of these rules sooner than say anything outright barbarous.
+
+This covers **responses and output alike**: chat replies, documentation files,
+GitHub issue and pull request bodies and titles, milestone descriptions, commit
+messages, and code comments. Progress-log entries are the one exception,
+because terse working notes are the point of them.
+
+Rule 5 does not ban the real vocabulary of the work. Keep a technical term when
+it names the thing exactly and no everyday word does. Drop it when a plain word
+would have served.
 
 Where a structural convention overlaps (e.g. github-conventions' title and
-body rules), apply both: STE governs sentence-level style, the convention
-governs structure and placement. If they conflict, the convention wins and the
-conflict is worth mentioning.
+body rules), apply both: style governs the sentence, the convention governs
+structure and placement. If they conflict, the convention wins, and the clash
+is worth saying out loud.
