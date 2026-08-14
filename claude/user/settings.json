@@ -74,7 +74,6 @@
     "supabase@claude-plugins-official": true,
     "vercel@claude-plugins-official": true,
     "i-have-adhd@i-have-adhd": true,
-    "simple-english@simple-english": true,
     "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
@@ -88,12 +87,6 @@
       "source": {
         "source": "github",
         "repo": "ayghri/i-have-adhd"
-      }
-    },
-    "simple-english": {
-      "source": {
-        "source": "github",
-        "repo": "AminBlg/SimpleEnglish"
       }
     }
   },
