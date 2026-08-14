@@ -99,12 +99,12 @@ You settled the Type at step 2 in order to shape the body. Carry that proposal h
 
 Never touch a Type or Priority that is already set. If one looks wrong, say so and leave it.
 
-**Collect proposals across the whole run and put them in one table at the end**, so I answer once instead of per issue:
+**Collect proposals across the whole run and put them in one table at the end**, so I answer once instead of per issue. **Every row carries the title, not just the number** — I do not remember which issue is which number (see the skill's "Naming issues in chat"):
 
 ```
-  #    Type      Priority   Why
-  61   Bug       High       Silently drops rows on a failed push; data loss, no warning
-  62   Task      Low        Tidy-up; nothing depends on it
+  #    Title                                    Type      Priority   Why
+  61   Push silently drops rows on failure      Bug       High       Data loss, no warning
+  62   Retire the unused capture flag           Task      Low        Tidy-up; nothing depends on it
 ```
 
 One line of reasoning each, no essays. Then set only what I approve. The skill has the commands, and note that Priority needs GraphQL and two ids, not a label.

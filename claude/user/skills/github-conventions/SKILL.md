@@ -33,6 +33,30 @@ constraint does not apply here.
 The **subject line** is the exception, because it is truncated rather than
 wrapped: keep it under about 72 characters, and nearer 50 where you can.
 
+## Naming issues in chat
+
+**Never identify an issue by its number alone.** Give the number and the title
+together, every time you raise one in chat: `#61 GPS/mag world→geodetic maps
+are a reflection`. A bare `#61` means nothing to the reader, who does not carry
+the backlog in their head and should not have to open a tab to learn what they
+are being asked about.
+
+This binds hardest on the surfaces where you ask for a decision, because a
+number-only list makes the answer a guess:
+
+- Type and Priority proposal tables
+- milestone assignment proposals
+- dependency and `Blocked by` proposals
+- split, merge and sub-issue proposals
+- any end-of-run summary of what you touched
+
+Trim a long title to its first several words rather than dropping it. In a
+table, give the title its own column so the rows stay readable.
+
+Inside an **issue or PR body** the bare `#61` is correct and stays: GitHub
+renders it with the title on hover and strikes it through when it closes. This
+rule is about chat, where nothing expands it.
+
 ## The rules you cannot break
 
 - **Never close an issue.** `gh issue close` is denied. A `Closes #<n>` in a
