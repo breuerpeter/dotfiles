@@ -1,14 +1,26 @@
 Host *
   AddKeysToAgent yes
   ForwardAgent yes
+# Every machine's key is listed under each host. ssh skips an IdentityFile that
+# is not there and tries the next one, so one file serves BLACK and YOGA alike.
+#
+# IdentitiesOnly matters on the GitHub hosts. Both accounts have a key in the
+# agent, the agent offers its keys before the configured one, and whichever the
+# server accepts first wins. Without it, a push to a breuerpeter repo
+# authenticates as pbreuer-ff and GitHub denies it.
 Host github-personal
   HostName github.com
+  IdentityFile ~/.ssh/BLACK-github-personal
   IdentityFile ~/.ssh/YOGA-github
+  IdentitiesOnly yes
 Host github.com
   HostName github.com
+  IdentityFile ~/.ssh/BLACK-github-ff
   IdentityFile ~/.ssh/YOGA-github-ff
+  IdentitiesOnly yes
 Host bitbucket-ff
   HostName bitbucket.org
+  IdentityFile ~/.ssh/BLACK-bitbucket-ff
   IdentityFile ~/.ssh/YOGA-bitbucket-ff
 Host astro
   HostName 10.41.1.1
@@ -23,6 +35,8 @@ Host black
   # LocalForward 9090 localhost:9090 # Rerun webviewer UI
   # LocalForward 9876 localhost:9876 # Rerun data stream (gRPC)
   # LocalForward 5760 localhost:5760 # GCS
-Host gantry
+Host gantry freeflygantry2
   HostName 192.168.100.2
   User freefly
+  IdentityFile ~/.ssh/gantry
+  IdentitiesOnly yes
